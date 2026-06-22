@@ -1,106 +1,36 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const titleStyle = { color: 'var(--error)' };
-
-/**
- * ErrorBoundary component - Catches JavaScript errors anywhere in the component tree.
- * Displays a fallback UI with recovery options when an error occurs.
- *
- * @class
- * @extends React.Component
- * @param {Object} props - Component props
- * @param {React.ReactNode} props.children - Child components to wrap
- */
 class ErrorBoundary extends React.Component {
-  /**
-   * Creates an ErrorBoundary instance.
-   * @param {Object} props - Component props
-   */
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null };
-    this.handleReset = () => this.setState({ hasError: false, error: null });
-    this.handleReload = () => window.location.reload();
   }
 
-  /**
-   * Updates state when an error is thrown by a descendant component.
-   * @param {Error} error - The error that was thrown
-   * @returns {Object} Updated state object
-   */
   static getDerivedStateFromError(error) {
     return { hasError: true, error };
   }
 
-  /**
-   * Logs error information to console for debugging.
-   * @param {Error} error - The error that was caught
-   * @param {Object} errorInfo - Object containing the component stack trace
-   */
   componentDidCatch(error, errorInfo) {
-    console.error('ErrorBoundary caught:', error, errorInfo);
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.state.hasError && prevProps.children !== this.props.children) {
-      this.setState({ hasError: false, error: null });
-    }
-  }
-
-  /**
-   * Renders the error boundary UI or children.
-   * @returns {React.ReactNode} The rendered content
-   */
   render() {
     if (this.state.hasError) {
       return (
-        <div
-          className="error-boundary-container"
-          role="alertdialog"
-          aria-modal="true"
-          aria-labelledby="error-boundary-title"
-        >
-          <div className="error-content">
-            <div className="error-icon">⚠️</div>
-            <h2 id="error-boundary-title" className="error-title" style={titleStyle}>
-              Something went wrong
-            </h2>
-            <p className="error-message" aria-describedby="error-boundary-title">
-              {this.state.error?.message || 'An unexpected error occurred.'}
-            </p>
-            <div className="error-actions" role="group" aria-label="Error Recovery Actions">
-              <button
-                type="button"
-                className="action-btn primary"
-                onClick={this.handleReset}
-                aria-label="Try rendering the component again"
-              >
-                <span aria-hidden="true">🔄</span> Try Again
-              </button>
-              <button
-                type="button"
-                className="action-btn secondary"
-                onClick={this.handleReload}
-                aria-label="Reload the application"
-              >
-                🌐 Reload App
-              </button>
-            </div>
-            <p className="error-helper">
-              If the problem persists, try refreshing the page or check your network connection.
-            </p>
-          </div>
+        <div className="p-4 bg-red-100/10 border border-red-500 rounded-lg text-center">
+          <h2 className="text-xl font-bold text-red-500 mb-2">Something went wrong</h2>
+          <p className="text-sm opacity-80">{this.state.error?.message || "An unexpected error occurred"}</p>
+          <button 
+            className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+            onClick={() => this.setState({ hasError: false, error: null })}
+          >
+            Try Again
+          </button>
         </div>
       );
     }
-
     return this.props.children;
   }
 }
-
-ErrorBoundary.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export default ErrorBoundary;

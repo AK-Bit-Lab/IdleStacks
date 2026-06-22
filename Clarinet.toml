@@ -1,7 +1,7 @@
 [project]
-name = "stacks-clicker-v2m"
-description = "StacksClicker v2m - Interactive dApp with Clicker, TipJar, and QuickPoll on Stacks (Clarity 2, Epoch 3.0)"
-authors = ["AdekunleBamz"]
+name = "IdleStacks-v2m"
+description = "IdleStacks v2m - Interactive dApp with Clicker, TipJar, and QuickPoll on Stacks (Clarity 2, Epoch 3.0)"
+authors = ["AK-Bit-Lab"]
 telemetry = false
 cache_dir = "./.cache"
 requirements = []

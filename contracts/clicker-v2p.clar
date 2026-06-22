@@ -67,7 +67,7 @@
 ;; Collect interaction fee
 (define-private (collect-fee)
   (begin
-    (try! (stx-transfer? interaction-fee tx-sender contract-owner))
+    (if (> interaction-fee u0) (try! (stx-transfer? interaction-fee tx-sender contract-owner)) true)
     (var-set total-fees-collected (+ (var-get total-fees-collected) interaction-fee))
     (ok true)
   )

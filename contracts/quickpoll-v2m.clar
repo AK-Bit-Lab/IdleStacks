@@ -11,7 +11,7 @@
 ;; CONFIGURATION
 ;; ============================================
 (define-constant contract-owner tx-sender)
-(define-constant interaction-fee u1000) ;; 0.001 STX = 1000 microSTX
+(define-constant interaction-fee u0) ;; 0 STX (Free)
 (define-constant MAX-QUESTION-LENGTH u100)
 (define-constant MAX-POLLS-PER-USER u50)
 

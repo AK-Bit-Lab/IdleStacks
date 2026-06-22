@@ -12,7 +12,7 @@
 ;; CONFIGURATION
 ;; ============================================
 (define-constant contract-owner tx-sender)
-(define-constant interaction-fee u100) ;; 0.0001 STX = 100 microSTX
+(define-constant interaction-fee u0) ;; 0 STX (Free)
 (define-constant MAX-MULTI-CLICK u100)
 
 ;; ============================================

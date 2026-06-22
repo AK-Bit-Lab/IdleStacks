@@ -179,3 +179,4 @@ export const TRANSACTION_HISTORY_PAGE_SIZE = 25;
 export const MAX_USERNAME_DISPLAY_LENGTH = 12;
 \n// updated network exports
 \nexport const FRONTEND_BUILD_VERSION = '1.0.0';
+\nexport const MAX_DISPLAY_TXS = 50;

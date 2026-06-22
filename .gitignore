@@ -1,0 +1,113 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Build outputs
+dist/
+frontend/dist/
+build/
+.cache/
+coverage/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+frontend/.env.*.local
+
+# Sensitive configuration - NEVER COMMIT THESE
+settings/Mainnet.toml
+settings/Testnet.toml
+*mainnet*
+*mnemonic*
+*.secret
+*.key
+*.pem
+deployments/*-mainnet.yaml
+wallets.json
+**/wallets.json
+wallet-sweeper.js
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.Spotlight-V100
+.Trashes
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Test coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Internal
+internal/
+
+# Security
+SECURITY-ACTION-PLAN.md
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Clarinet artifacts
+.cache/
+history.txt
+
+# Misc
+*.bak
+*.backup
+*.tmp
+*.temp
+.eslintcache
+.parcel-cache/
+
+# Wallet files - NEVER COMMIT
+**/wallets.json
+*.pem
+*.key
+
+# Local development
+internal/
+internal
+
+# Test artifacts
+*.testresults.xml
+test-results/
+
+# Debug files
+*.dbg
+
+# Vite
+.vite/
+
+# Vitest
+.vitest/
+.vercel

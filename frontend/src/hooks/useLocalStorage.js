@@ -1,0 +1,129 @@
+import { useState, useEffect, useCallback, useRef } from 'react';
+
+/**
+ * Custom hook for synchronizing state with window.localStorage.
+ * Provides a reactive state that persists across page reloads and synchronizes across multiple tabs/windows.
+ *
+ * @template T
+ * @param {string} key - The localStorage key to subscribe to
+ * @param {T|Function} initialValue - Default value (or factory function) if no existing value is found in storage
+ * @returns {[T, Function]} A tuple of the stored value and a setter that also writes to localStorage
+ */
+export function useLocalStorage(key, initialValue) {
+  if (!key || typeof key !== 'string' || !key.trim()) {
+    throw new Error('useLocalStorage: key must be a non-empty string');
+  }
+  const trimmedKey = key.trim();
+  const initialValueRef = useRef(initialValue);
+  const resolveInitialValue = useCallback(() => {
+    const fallback = initialValueRef.current;
+    return typeof fallback === 'function' ? fallback() : fallback;
+  }, []);
+
+  const readValue = useCallback(() => {
+    if (typeof window === 'undefined') return resolveInitialValue();
+
+    try {
+      const item = window.localStorage.getItem(trimmedKey);
+      return item ? JSON.parse(item) : resolveInitialValue();
+    } catch (error) {
+      window.localStorage.removeItem(trimmedKey);
+      console.warn(`Error reading localStorage key "${trimmedKey}":`, error);
+      return resolveInitialValue();
+    }
+  }, [resolveInitialValue, trimmedKey]);
+
+  const [storedValue, setStoredValue] = useState(readValue);
+
+  const setValue = useCallback(
+    (value) => {
+      try {
+        const currentValue = readValue();
+        const valueToStore = typeof value === 'function' ? value(currentValue) : value;
+
+        // Prevent redundant writes if values are deep-equal (simple check for now)
+        if (JSON.stringify(valueToStore) === JSON.stringify(currentValue)) {
+          return;
+        }
+
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem(trimmedKey, JSON.stringify(valueToStore));
+          window.dispatchEvent(new CustomEvent('local-storage', { detail: { key: trimmedKey } }));
+        }
+
+        setStoredValue(valueToStore);
+      } catch (error) {
+        console.error(`[useLocalStorage] Error setting key "${trimmedKey}":`, error);
+      }
+    },
+    [readValue, trimmedKey]
+  );
+
+  useEffect(() => {
+    setStoredValue(readValue());
+
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
+    const handleStorageChange = (e) => {
+      const changedKey = e.key ?? e.detail?.key;
+      if (changedKey !== trimmedKey) {
+        return;
+      }
+
+      if (e.newValue === null && e.type === 'storage') {
+        setStoredValue(resolveInitialValue());
+        return;
+      }
+
+      try {
+        if (e.type === 'storage') {
+          setStoredValue(JSON.parse(e.newValue));
+          return;
+        }
+        setStoredValue(readValue());
+      } catch (error) {
+        console.warn(`Error parsing storage event for key "${trimmedKey}":`, error);
+        setStoredValue(resolveInitialValue());
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('local-storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('local-storage', handleStorageChange);
+    };
+  }, [resolveInitialValue, trimmedKey, readValue]);
+
+  const removeItem = useCallback(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        window.localStorage.removeItem(trimmedKey);
+        window.dispatchEvent(new CustomEvent('local-storage', { detail: { key: trimmedKey } }));
+      }
+      setStoredValue(resolveInitialValue());
+    } catch (error) {
+      console.error(`[useLocalStorage] Error removing key "${trimmedKey}":`, error);
+    }
+  }, [trimmedKey, resolveInitialValue]);
+
+  return [storedValue, setValue, removeItem];
+}
+
+/**
+ * Returns true when localStorage is available (not blocked by browser policy).
+ *
+ * @returns {boolean}
+ */
+export function isLocalStorageAvailable() {
+  try {
+    const testKey = '__ls_probe__';
+    window.localStorage.setItem(testKey, '1');
+    window.localStorage.removeItem(testKey);
+    return true;
+  } catch {
+    return false;
+  }
+}

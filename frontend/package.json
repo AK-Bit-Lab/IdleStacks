@@ -1,0 +1,60 @@
+{
+  "name": "stacks-clicker-frontend",
+  "private": true,
+  "version": "2.2.0",
+  "description": "Premium React frontend for the Stacks Clicker decentralized interaction hub",
+  "author": "AdekunleBamz",
+  "license": "MIT",
+  "keywords": [
+    "stacks",
+    "bitcoin",
+    "l2",
+    "defi",
+    "clicker",
+    "web3",
+    "react",
+    "framer-motion",
+    "glassmorphism"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@stacks/connect": "^8.2.6",
+    "@stacks/network": "^6.17.0",
+    "@stacks/transactions": "^6.17.0",
+    "framer-motion": "^12.34.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.6.0",
+    "stacks-clicker-sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "jsdom": "^28.1.0",
+    "prettier": "^3.8.1",
+    "vite": "^6.0.5",
+    "vitest": "^4.0.18"
+  },
+  "homepage": "https://stacks-clicker.vercel.app",
+  "bugs": {
+    "url": "https://github.com/AdekunleBamz/stacks-clicker/issues"
+  }
+}

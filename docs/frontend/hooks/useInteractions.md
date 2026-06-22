@@ -1,0 +1,23 @@
+# useInteractions
+
+`useInteractions` aggregates domain hooks into one interface:
+- `clicker`
+- `tipjar`
+- `quickpoll`
+- `pingAll()`
+
+Use this hook in `App.jsx` to avoid scattered transaction callback wiring.
+Surface transaction callbacks from this level to keep card components lean.
+
+## Maintenance Note
+- Recheck interaction payload fields whenever backend event schema changes.
+- Recheck payload schema expectations when interaction event fields change.
+- Reconfirm analytics event fields before publishing interaction schema changes.
+- Keep transaction callback ordering deterministic when aggregating hook responses.
+- Keep payload shape examples in sync with current interaction utilities.
+
+Maintenance note: When adding new interaction channels, document callback ordering expectations explicitly.
+
+Operational note: Keep interaction source tracking consistent between pointer and keyboard paths.
+
+Maintenance note: Reconfirm interaction errors preserve enough context for toast recovery copy.

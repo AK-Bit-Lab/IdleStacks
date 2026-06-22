@@ -1,0 +1,12 @@
+# Wallet address truncation check
+
+Audit truncation lengths for readability across desktop and mobile breakpoints.
+Over-truncated addresses make account confirmation harder.
+
+- Recheck truncation logic when address checksum display rules are revised.
+
+### Follow-up
+- Revalidate truncation format examples when wallet display rules change.
+- Verify full-address tooltip and copy actions remain available after truncation updates.
+
+Follow-up note: Confirm truncation still keeps distinct wallet prefixes and suffixes visible.

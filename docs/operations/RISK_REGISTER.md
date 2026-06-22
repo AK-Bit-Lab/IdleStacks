@@ -1,0 +1,24 @@
+# Risk Register
+
+Track active risks with:
+- risk description
+- impact scope
+- mitigation owner
+- current status
+- next review date
+- decision date for the current mitigation plan
+- detection signal used to spot this risk early in production
+
+Update this register during incident and release reviews.
+
+Companion index: [Operations docs](README.md).
+
+### Risk Reminder
+- Record mitigation owner and review date for every open high-risk item.
+- Include a simple likelihood/severity score to prioritize mitigation work.
+
+Operational note: Re-score risks after each production incident to keep probability and impact values current.
+
+Operational note: Add mitigation owner initials beside each newly logged risk.
+
+Quarterly follow-up: Retire mitigated risks so active items remain visible.

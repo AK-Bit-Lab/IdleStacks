@@ -1,0 +1,49 @@
+{
+  "name": "stacks-clicker-root",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A high-performance decentralized interaction hub on Stacks",
+  "keywords": [
+    "stacks",
+    "blockchain",
+    "clarity",
+    "gamefi",
+    "clicker",
+    "bitcoin-l2"
+  ],
+  "dependencies": {
+    "@stacks/network": "^7.3.1",
+    "@stacks/transactions": "^7.3.1",
+    "@stacks/wallet-sdk": "^7.2.0"
+  },
+  "scripts": {
+    "frontend:install": "npm --prefix frontend ci",
+    "frontend:dev": "npm --prefix frontend run dev",
+    "dev": "npm run frontend:dev",
+    "frontend:build": "npm --prefix frontend run build",
+    "build": "npm run frontend:build",
+    "frontend:test": "npm --prefix frontend run test",
+    "test": "npm run frontend:test",
+    "frontend:lint": "npm --prefix frontend run lint",
+    "lint": "npm run frontend:lint",
+    "frontend:lint:fix": "npm --prefix frontend run lint:fix",
+    "format": "npm --prefix frontend run format",
+    "format:check": "npm --prefix frontend run format:check",
+    "contracts:check": "clarinet check",
+    "check": "npm run contracts:check",
+    "contracts:test": "clarinet test",
+    "verify:local": "npm run contracts:check && npm run test",
+    "verify:production": "npm run lint && npm run build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AdekunleBamz/stacks-clicker.git"
+  },
+  "homepage": "https://stacks-clicker.vercel.app",
+  "bugs": {
+    "url": "https://github.com/AdekunleBamz/stacks-clicker/issues"
+  }
+}

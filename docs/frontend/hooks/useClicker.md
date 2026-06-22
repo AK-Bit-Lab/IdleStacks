@@ -1,0 +1,29 @@
+# useClicker
+
+`useClicker` wraps Clicker contract calls and tracks per-action loading state.
+
+Exposed methods:
+- `click()`
+- `multiClick(amount)`
+- `ping()`
+- `isLoading(functionName)`
+
+Loading key note:
+- `isLoading` expects contract function keys like `click` and `multi-click`.
+
+## Maintenance Note
+- Confirm cooldown math notes stay aligned with contract-side click throttling updates.
+- Keep click/ping error copy synchronized with broadcast backoff handling.
+
+Source file: `frontend/src/hooks/useClicker.js`.
+
+- Revalidate loading-key names after any contract method rename.
+- Revalidate multi-click argument guards when contract input limits evolve.
+- Reconfirm multi-click upper-bound validation after contract-side cap adjustments.
+- Recheck cooldown assumptions when interaction throttling settings are tuned.
+
+Maintenance note: Keep click callback examples aligned with the latest optimistic-update behavior.
+
+Operational note: Capture click burst throttling behavior under unstable network conditions.
+
+Maintenance note: Recheck optimistic score rollback when click submission fails.

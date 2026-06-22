@@ -1,0 +1,107 @@
+import { render, screen, fireEvent } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import Header from '../Header';
+import { useWallet } from '../../context/WalletContext';
+import { useI18n } from '../../context/I18nContext';
+import { useScrollPosition } from '../../hooks/useScrollPosition';
+
+// Mock dependencies
+vi.mock('../../context/WalletContext', () => ({
+  useWallet: vi.fn(),
+}));
+
+vi.mock('../../context/I18nContext', () => ({
+  useI18n: vi.fn(),
+}));
+
+vi.mock('../../hooks/useScrollPosition', () => ({
+  useScrollPosition: vi.fn(),
+}));
+
+vi.mock('../NetworkLogo', () => ({
+  default: () => <div data-testid="network-logo" />,
+}));
+
+vi.mock('../common/AddressBadge', () => ({
+  default: ({ address }) => <div data-testid="address-badge">{address}</div>,
+}));
+
+describe('Header component', () => {
+  beforeEach(() => {
+    useWallet.mockReturnValue({
+      address: null,
+      connectWallet: vi.fn(),
+      disconnectWallet: vi.fn(),
+    });
+    useI18n.mockReturnValue({
+      lang: 'en',
+      setLang: vi.fn(),
+      supportedLangs: ['en', 'es', 'fr', 'pt', 'de'],
+    });
+    useScrollPosition.mockReturnValue({ y: 0 });
+  });
+
+  it('renders correctly in default state', () => {
+    render(<Header theme="dark" toggleTheme={vi.fn()} />);
+    expect(screen.getByText('Stacks Clicker')).toBeDefined();
+    expect(screen.getByRole('banner')).toBeDefined();
+    expect(screen.getByLabelText('Connect Stacks Wallet to begin playing')).toBeDefined();
+  });
+
+  it('shows address badge when wallet is connected', () => {
+    useWallet.mockReturnValue({
+      address: 'SP123...',
+      disconnectWallet: vi.fn(),
+    });
+    render(<Header theme="dark" toggleTheme={vi.fn()} />);
+    expect(screen.getByTestId('address-badge')).toBeDefined();
+    expect(screen.getByLabelText('Disconnect wallet session')).toBeDefined();
+  });
+
+  it('triggers theme toggle when button is clicked', () => {
+    const handleToggle = vi.fn();
+    render(<Header theme="dark" toggleTheme={handleToggle} />);
+
+    fireEvent.click(screen.getByLabelText(/Toggle to light theme/i));
+    expect(handleToggle).toHaveBeenCalledTimes(1);
+  });
+
+  it('changes class when scrolled', () => {
+    useScrollPosition.mockReturnValue({ y: 100 });
+    render(<Header theme="dark" toggleTheme={vi.fn()} />);
+    expect(screen.getByRole('banner').className).toContain('header-scrolled');
+  });
+
+  it('has correct ARIA roles and labels for accessibility', () => {
+    render(<Header theme="dark" toggleTheme={vi.fn()} />);
+    expect(screen.getByRole('banner')).toHaveAttribute('role', 'banner');
+    expect(screen.getByLabelText('Select application language')).toBeDefined();
+  });
+
+  it('shows only supported language options', () => {
+    render(<Header theme="dark" toggleTheme={vi.fn()} />);
+
+    const select = screen.getByLabelText('Select application language');
+    const options = Array.from(select.querySelectorAll('option')).map(
+      (option) => option.textContent
+    );
+    expect(options).toEqual(['EN', 'ES', 'FR', 'PT', 'DE']);
+  });
+
+  it('shows connect button when wallet is not connected', () => {
+    render(<Header theme="dark" toggleTheme={vi.fn()} />);
+    expect(screen.getByLabelText('Connect Stacks Wallet to begin playing')).toBeDefined();
+  });
+
+  it('calls disconnectWallet when disconnect button is clicked', () => {
+    const disconnectFn = vi.fn();
+    useWallet.mockReturnValue({
+      address: 'SP123...',
+      disconnectWallet: disconnectFn,
+    });
+    render(<Header theme="dark" toggleTheme={vi.fn()} />);
+
+    fireEvent.click(screen.getByLabelText('Disconnect wallet session'));
+    expect(disconnectFn).toHaveBeenCalledTimes(1);
+  });
+});

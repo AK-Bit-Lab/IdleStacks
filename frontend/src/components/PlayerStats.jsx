@@ -1,0 +1,53 @@
+import { memo } from 'react';
+import PropTypes from 'prop-types';
+import StatsCard from './common/StatsCard';
+
+const sectionStyle = { textRendering: 'optimizeLegibility' };
+const DEFAULT_STATS = { clicks: 0, tips: 0, votes: 0 };
+
+/**
+ * Component to display aggregate player statistics with premium animations.
+ * @param {Object} props - Component props.
+ * @param {Object} props.stats - Stats object { clicks, tips, votes }.
+ * @param {number} props.txCount - Total transaction count.
+ * @returns {JSX.Element} The rendered stats bar.
+ */
+function PlayerStats({ stats = DEFAULT_STATS, txCount = 0 }) {
+  const statItems = [
+    { label: 'Clicks', value: stats.clicks, icon: '🎯', color: '#6366f1' },
+    { label: 'Tips Sent', value: stats.tips, icon: '💰', color: '#10b981' },
+    { label: 'Votes Cast', value: stats.votes, icon: '🗳️', color: '#f59e0b' },
+    { label: 'Transactions', value: txCount, icon: '⚡', color: '#ec4899' },
+  ];
+
+  return (
+    <section
+      className="stats-bar"
+      aria-label="Player Statistics"
+      title="Your Personal Player Statistics Overview"
+      style={sectionStyle}
+    >
+      <div
+        className={`stats-cards ${txCount === 0 && stats.clicks === 0 ? 'shimmer' : ''}`}
+        role="group"
+        aria-label="Aggregate Player Performance Metrics"
+        data-testid="player-stats-grid"
+      >
+        {statItems.map((item, index) => (
+          <StatsCard key={item.label} {...item} index={index} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+PlayerStats.propTypes = {
+  stats: PropTypes.shape({
+    clicks: PropTypes.number,
+    tips: PropTypes.number,
+    votes: PropTypes.number,
+  }),
+  txCount: PropTypes.number,
+};
+
+export default memo(PlayerStats);

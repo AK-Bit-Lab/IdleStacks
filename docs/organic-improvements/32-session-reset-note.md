@@ -1,0 +1,12 @@
+# Session reset troubleshooting note
+
+When users report stuck wallet state, recommend a controlled session reset before deeper debugging.
+This resolves stale provider state in many reconnect scenarios.
+
+- Recheck session reset guidance after wallet adapter major upgrades.
+
+### Follow-up
+- Check session reset behavior after auth and wallet state refactors.
+- Confirm reset guidance preserves non-wallet preferences like language and theme.
+
+Follow-up note: Document which persisted keys are expected to reset across sessions.

@@ -1,0 +1,21 @@
+# Performance Budget Notes
+
+- Keep initial screen content responsive while wallet state and price data load.
+- Watch for regressions that slow repeated click actions or animation feedback.
+- Treat long main-thread tasks during connect or submit flows as release blockers.
+- Capture before-and-after measurements when tuning rendering or network polling.
+- Prefer budget checks on both low-power mobile and laptop-class hardware.
+- Include a cold-start load measurement after any major bundle or route change.
+- Recheck animation-heavy paths with reduced-motion enabled to avoid accessibility regressions.
+
+Companion index: [Operations docs](README.md).
+
+### Budget Reminder
+- Capture baseline measurements before and after UI animation changes.
+- Include both cold-cache and warm-cache measurements when tracking budget drift.
+
+Operational note: Track budget exceptions with expiry dates so temporary allowances do not become permanent.
+
+Operational note: Track median and p95 together so budget drift is easier to spot.
+
+Quarterly follow-up: Capture variance rationale when budget exceptions are approved.

@@ -1,0 +1,144 @@
+/**
+ * Utility for parsing Stacks smart contract error codes into human-readable messages.
+ *
+ * Stacks errors are typically returned as strings like "(err u101)" or "101".
+ * This module maps these numeric codes to friendly feedback for the user.
+ *
+ * @module utils/errors
+ */
+
+const ERROR_MAP = Object.freeze({
+  // Common Stacks / Contract Errors
+  100: 'Unauthorized: You do not have permission to perform this action.',
+  101: 'Insufficient Funds: You do not have enough STX to complete this transaction.',
+  102: 'Invalid Parameters: The data provided to the contract is malformed.',
+  103: 'Cooldown Active: Please wait before performing this action again.',
+  104: 'Limit Reached: You have reached the maximum allowed for this interaction.',
+  105: 'Poll Expired: This poll is no longer accepting votes.',
+  106: 'Already Voted: You have already cast your vote in this poll.',
+  107: 'Feature Disabled: This feature has been temporarily disabled by governance.',
+  108: 'Session Tip Limit: You have reached the maximum number of tips allowed this session.',
+  401: 'User Rejected: The transaction request was cancelled in your wallet.',
+  403: 'Contract Paused: This interaction is currently disabled by the maintainers.',
+  408: 'Request Timeout: The transaction request timed out. Please retry.',
+  409: 'Conflict: This action conflicts with the current contract state.',
+  500: 'Network Error: Failed to broadcast the transaction. Please try again.',
+  1001: 'Invalid Amount: Please specify a positive number for this interaction.',
+});
+
+/**
+ * Parses a raw error from the Stacks blockchain or wallet provider.
+ *
+ * @param {any} error - The error object or string to parse
+ * @returns {string} A user-friendly error message
+ */
+export function parseContractError(error) {
+  if (!error) return 'Transaction failed: an unknown error occurred.';
+  const errorMessage =
+    typeof error === 'string'
+      ? error
+      : error?.message ||
+        error?.reason ||
+        error?.error?.message ||
+        error?.error?.reason ||
+        error?.error ||
+        String(error);
+  const lowerMessage = errorMessage.toLowerCase();
+
+  // Extract numeric codes from strings like "(err u101)" or "Error: 101"
+  const match = errorMessage.match(/\d+/);
+  const code = match ? match[0] : null;
+
+  if (code && ERROR_MAP[code]) {
+    return ERROR_MAP[code];
+  }
+
+  if (
+    lowerMessage.includes('backoff active') ||
+    lowerMessage.includes('rate limit') ||
+    lowerMessage.includes('quota') ||
+    lowerMessage.includes('toomuchchaining')
+  ) {
+    return errorMessage;
+  }
+
+  // Handle common string-based patterns
+  if (lowerMessage.includes('user rejected') || lowerMessage.includes('cancelled')) {
+    return ERROR_MAP['401'];
+  }
+
+  if (lowerMessage.includes('disconnected') || lowerMessage.includes('connection lost')) {
+    return 'Wallet Disconnected: Please reconnect your wallet and try again.';
+  }
+
+  if (lowerMessage.includes('insufficient')) {
+    return ERROR_MAP['101'];
+  }
+
+  const compactMessage =
+    errorMessage.length > 60 ? `${errorMessage.slice(0, 60)}...` : errorMessage;
+  return `Transaction failed: ${compactMessage}`;
+}
+
+/**
+ * Extracts the numeric error code from an error message.
+ * Returns null if no numeric code is found.
+ *
+ * @param {any} error - The error object or string to parse
+ * @returns {string|null} The numeric error code, or null if not found
+ */
+export function getErrorCode(error) {
+  if (!error) return null;
+  const errorMessage =
+    typeof error === 'string'
+      ? error
+      : error?.message || error?.reason || error?.error?.message || String(error);
+  const match = errorMessage.match(/\d+/);
+  return match ? match[0] : null;
+}
+
+/**
+ * Returns true if an error appears retryable based on known transient codes.
+ *
+ * @param {any} error - Error object or message
+ * @returns {boolean} True when retrying may succeed
+ */
+export function isRetryableError(error) {
+  const retryableCodes = new Set(['408', '500']);
+  const code = getErrorCode(error);
+  return code ? retryableCodes.has(code) : false;
+}
+
+/** Alias for parseContractError for callers preferring a more generic name */
+export const getErrorMessage = parseContractError;
+
+/**
+ * Returns true if the error is likely caused by a network connectivity issue.
+ *
+ * @param {any} error - The error to check
+ * @returns {boolean}
+ */
+export function isNetworkError(error) {
+  const msg = typeof error === 'string' ? error : error?.message || error?.reason || String(error);
+  const lower = msg.toLowerCase();
+  return (
+    lower.includes('network') ||
+    lower.includes('fetch') ||
+    lower.includes('dns') ||
+    lower.includes('timeout') ||
+    lower.includes('offline') ||
+    lower.includes('econnrefused') ||
+    lower.includes('failed to fetch')
+  );
+}
+
+/**
+ * Returns true if the error was triggered by user rejection (wallet cancel).
+ *
+ * @param {any} error
+ * @returns {boolean}
+ */
+export function isUserRejection(error) {
+  const msg = (typeof error === 'string' ? error : error?.message || String(error)).toLowerCase();
+  return msg.includes('user rejected') || msg.includes('cancelled') || msg.includes('canceled');
+}

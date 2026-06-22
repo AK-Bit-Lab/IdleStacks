@@ -1,0 +1,81 @@
+import { useState, memo, useCallback, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { notify } from '../../utils/toast';
+
+/**
+ * Component for displaying a truncated Stacks wallet address with copy-to-clipboard functionality.
+ * Provides a clean UI for address identification and optional session management.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} props.address - The full Stacks address to be truncated and displayed
+ * @param {Function} [props.onDisconnect] - Optional callback to trigger wallet disconnection
+ * @returns {JSX.Element|null} The rendered address badge or null if no address is provided
+ * @example
+ * <AddressBadge address="SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ" onDisconnect={handleDisconnect} />
+ */
+function AddressBadge({ address, onDisconnect = null }) {
+  const [copied, setCopied] = useState(false);
+  const timerRef = useRef(null);
+
+  useEffect(() => () => clearTimeout(timerRef.current), []);
+
+  /**
+   * Copies the full address to the system clipboard and provides visual feedback.
+   */
+  const handleCopy = useCallback(() => {
+    if (!address) return;
+    if (typeof navigator === 'undefined' || !navigator.clipboard?.writeText) {
+      notify.error('Clipboard not available');
+      return;
+    }
+
+    navigator.clipboard
+      .writeText(address)
+      .then(() => {
+        setCopied(true);
+        notify.success('Address copied!');
+        timerRef.current = setTimeout(() => setCopied(false), 2000);
+      })
+      .catch(() => notify.error('Unable to copy address'));
+  }, [address]);
+
+  if (!address) return null;
+
+  return (
+    <div className="wallet-info" role="region" aria-label="Wallet Connection Status">
+      <button
+        type="button"
+        className="address-badge"
+        onClick={handleCopy}
+        title="Copy address to clipboard"
+        aria-label={copied ? 'Address copied to clipboard' : 'Copy wallet address'}
+      >
+        <span className="address-text">
+          {address.slice(0, 6)}...{address.slice(-4)}
+        </span>
+        <span className="copy-icon" aria-hidden="true">
+          {copied ? '✅' : '📋'}
+        </span>
+      </button>
+      {onDisconnect && (
+        <button
+          type="button"
+          className="btn-disconnect"
+          onClick={onDisconnect}
+          aria-label="Disconnect wallet from current session"
+          title="Disconnect wallet"
+        >
+          Disconnect
+        </button>
+      )}
+    </div>
+  );
+}
+
+AddressBadge.propTypes = {
+  address: PropTypes.string.isRequired,
+  onDisconnect: PropTypes.func,
+};
+
+export default memo(AddressBadge);

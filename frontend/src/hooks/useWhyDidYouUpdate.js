@@ -1,0 +1,37 @@
+import { useEffect, useRef, useState } from 'react';
+
+/**
+ * Custom hook for debugging unnecessary re-renders.
+ * Logs changed props to the console between renders.
+ *
+ * @param {string} name - Component name for identification
+ * @param {Object} props - Component props to track
+ */
+export function useWhyDidYouUpdate(name, props) {
+  const previousProps = useRef();
+  const [changeCount, setChangeCount] = useState(0);
+  const safeName = typeof name === 'string' && name.trim() ? name.trim() : 'UnknownComponent';
+
+  useEffect(() => {
+    const safeProps = props != null && typeof props === 'object' ? props : {};
+    if (previousProps.current) {
+      const allKeys = Object.keys({ ...previousProps.current, ...safeProps });
+      const changesObj = Object.fromEntries(
+        allKeys
+          .filter((key) => previousProps.current[key] !== safeProps[key])
+          .map((key) => [key, { from: previousProps.current[key], to: safeProps[key] }])
+      );
+
+      if (Object.keys(changesObj).length && import.meta.env.DEV) {
+        setChangeCount((c) => c + 1);
+        console.group(`[why-did-you-update] ${safeName}`);
+        console.log('Changed props:', changesObj);
+        console.groupEnd();
+      }
+    }
+
+    previousProps.current = safeProps;
+  });
+
+  return changeCount;
+}

@@ -1,0 +1,18 @@
+# ActionCard
+
+`ActionCard.jsx` provides a themed container for interaction modules.
+
+Use it to keep card chrome consistent across clicker, tipjar, and polling surfaces.
+Avoid embedding unrelated layout concerns so this wrapper stays reusable.
+
+## Maintenance Note
+- Keep spacing-density notes current when card content slots are expanded.
+
+- Recheck spacing density before introducing new card footer actions.
+
+- Recheck heading hierarchy whenever new action card slots are introduced.
+- Keep empty and populated card states on matching padding to reduce layout jitter.
+
+Operational note: Confirm action card headings remain concise on small screens.
+
+Maintenance note: Recheck card action order when adding secondary controls.

@@ -1,0 +1,19 @@
+# TransactionLog
+
+`TransactionLog.jsx` is a compact transaction feed variant used for simple history display.
+
+It maps statuses to icons and links confirmed tx IDs to the Hiro explorer.
+Prefer this view for lightweight embeds where filters/export are unnecessary.
+
+## Maintenance Note
+- Revisit retention and truncation notes if log paging strategy changes.
+- Revisit retention assumptions when transaction log persistence changes.
+- Reconfirm retention wording if log pruning behavior changes.
+- Distinguish local submit time from chain confirmation time when both are displayed.
+- Keep retention expectations aligned with transaction-log schema updates.
+
+Maintenance note: Re-check live-region wording after toast severity or ordering behavior changes.
+
+Operational note: Capture pagination behavior evidence for wallets with long histories.
+
+Maintenance note: Recheck explorer-link labels when compact log entries are truncated.

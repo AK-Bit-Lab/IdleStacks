@@ -1,0 +1,26 @@
+# MainGrid
+
+`MainGrid.jsx` is the interaction hub layout.
+
+It composes:
+- `InteractionStreaks`
+- `ClickerCard`
+- `TipJarCard`
+- `QuickPollCard`
+
+Expected props include wallet address, aggregate stats, and the three hook APIs (`clicker`, `tipjar`, `quickpoll`).
+Prefer adding new cards through this layout to keep dashboard ordering explicit.
+
+## Maintenance Note
+- Add new interaction cards here in a predictable order to keep keyboard navigation consistent.
+- Revalidate card order assumptions before introducing new primary dashboard tiles.
+- Recheck responsive breakpoints after introducing additional dashboard widgets.
+- Keep heading and landmark order stable when rearranging cards for accessibility consistency.
+- Keep card ordering guidance in sync with product priority updates.
+- Audit prompt: verify priority card placement with updated product goals.
+
+Maintenance note: Revalidate section role and heading hierarchy after any main grid slot rearrangement.
+
+Operational note: Verify grid collapse order for keyboard navigation on tablets.
+
+Maintenance note: Confirm new dashboard cards declare clear loading and empty states.

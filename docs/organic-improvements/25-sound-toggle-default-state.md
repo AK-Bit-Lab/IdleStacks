@@ -1,0 +1,12 @@
+# Sound toggle default-state check
+
+Ensure the first-run sound preference is explicit and visible in settings.
+Unexpected audio playback hurts trust, especially on shared devices.
+
+- Reconfirm default toggle state after settings storage key migrations.
+
+### Follow-up
+- Confirm default sound-toggle behavior remains stable across fresh sessions.
+- Reconfirm mute preference sync behavior between tabs when settings change.
+
+Follow-up note: Confirm sound toggle default survives hard refresh and new session start.

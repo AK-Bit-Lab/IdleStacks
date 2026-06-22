@@ -1,0 +1,68 @@
+import { useState, useCallback } from 'react';
+import { useWallet } from '../context/WalletContext';
+import { callContract } from '../utils/stacksWallet';
+import { notify } from '../utils/toast';
+import { DEPLOYER_ADDRESS, CONTRACT_NAMES } from '../config/contracts';
+
+/** @constant {string} TipJar contract name */
+const CONTRACT_NAME = CONTRACT_NAMES.tipjar;
+
+/**
+ * Custom hook for TipJar contract interactions.
+ * @param {Object} options - Hook options.
+ * @param {Function} [options.onTxSubmit] - Callback for transaction submission.
+ * @returns {Object} TipJar actions and loading state.
+ */
+export function useTipJar({ onTxSubmit } = {}) {
+  const { isConnected } = useWallet();
+  const [loadingStates, setLoadingStates] = useState({});
+
+  const executeAction = useCallback(
+    async (key, functionName, functionArgs = []) => {
+      if (!isConnected) return;
+      setLoadingStates((prev) => ({ ...prev, [key]: true }));
+      try {
+        const result = await callContract({
+          contractAddress: DEPLOYER_ADDRESS,
+          contractName: CONTRACT_NAME,
+          functionName,
+          functionArgs,
+        });
+        onTxSubmit?.(key, result.txId);
+        return result;
+      } catch (err) {
+        console.error(`TipJar action ${key} failed:`, err);
+        throw err;
+      } finally {
+        setLoadingStates((prev) => ({ ...prev, [key]: false }));
+      }
+    },
+    [isConnected, onTxSubmit]
+  );
+
+  const tip = useCallback(
+    (amount = 1000) => {
+      const normalizedAmount = Number.isFinite(amount) && amount > 0 ? Math.floor(amount) : 1000;
+      return executeAction('💰 Tip', 'tip', [
+        { type: 'uint128', value: normalizedAmount.toString() },
+      ]);
+    },
+    [executeAction]
+  );
+  const withdraw = useCallback(() => {
+    notify.info('Withdraw is not available on this contract version.');
+    return undefined;
+  }, []);
+  const handleSelfPing = useCallback(
+    () => executeAction('self-ping', 'ping'),
+    [executeAction]
+  );
+
+  return {
+    isLoading: (key) => !!loadingStates[key],
+    tip,
+    withdraw,
+    selfPing: handleSelfPing,
+    handleSelfPing,
+  };
+}

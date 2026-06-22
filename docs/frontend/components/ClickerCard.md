@@ -1,0 +1,25 @@
+# ClickerCard Component
+
+The `ClickerCard` component wraps clicker interactions in an `ActionCard` container, providing the primary clicking interface for the GameFi experience.
+
+## Overview
+
+A connected address is required; disconnected actions trigger error feedback.
+Keep button disabled/loading state tied to hook-level function keys.
+
+- Align displayed action cost labels with current on-chain fee assumptions before each release.
+
+- Recheck action labels when click cost display rules are updated.
+
+- Confirm button disable logic still prevents duplicate click submits.
+- Re-check pending transaction state so the primary click action cannot be double-submitted.
+
+### Maintenance Note
+- Recheck click cost copy whenever contract fee constants change.
+- Audit prompt: confirm displayed click costs still match runtime estimates.
+
+Maintenance note: Keep click-action state transitions documented when cooldown behavior is updated.
+
+Operational note: Validate score delta readability when rapid clicks trigger dense updates.
+
+Maintenance note: Retest cooldown messaging when click submit throttling changes.

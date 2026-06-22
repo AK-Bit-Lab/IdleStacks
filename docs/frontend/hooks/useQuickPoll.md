@@ -1,0 +1,23 @@
+# useQuickPoll
+
+`useQuickPoll` provides poll interaction calls with keyed loading state.
+
+Exposed methods:
+- `vote(pollId, option)`
+- `createPoll(question)`
+- `handlePollPing()`
+- `isLoading(functionName)`
+- Validate question length before `createPoll` to avoid rejected transactions.
+
+## Maintenance Note
+- Revisit poll expiry/window assumptions when backend polling cadence is adjusted.
+- Reconfirm vote expiry defaults when contract-level timing windows change.
+- Reconfirm default option validation when poll form constraints shift.
+- Recheck poll ID coercion safeguards to avoid submitting malformed vote payloads.
+- Keep expiry and validation notes aligned with current poll contract behavior.
+
+Maintenance note: Keep payload validation examples synchronized with current poll schema constraints.
+
+Operational note: Track poll expiration edge cases in integration testing notes.
+
+Maintenance note: Recheck vote payload examples after poll contract argument changes.

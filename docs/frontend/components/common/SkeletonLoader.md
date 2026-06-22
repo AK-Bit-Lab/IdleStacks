@@ -1,0 +1,18 @@
+# SkeletonLoader
+
+`SkeletonLoader.jsx` provides a shimmer placeholder block for suspense/loading states.
+
+Configurable props include width, height, border radius, and extra class names.
+Match skeleton dimensions to final content to reduce layout shifts.
+
+## Maintenance Note
+- Validate shimmer duration against motion-budget guidance during design refreshes.
+
+- Recheck motion budget whenever skeleton animation style is updated.
+
+- Keep placeholder animation speed within documented motion limits.
+- Confirm decorative skeletons stay `aria-hidden` so assistive tech focuses on real content.
+
+Operational note: Keep skeleton duration short enough to avoid perceived freeze on fast responses.
+
+Maintenance note: Confirm skeleton dimensions are updated with matching content layout changes.

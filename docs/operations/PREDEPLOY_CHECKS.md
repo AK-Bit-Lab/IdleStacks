@@ -1,0 +1,25 @@
+# Predeploy Checks
+
+- Confirm target network and deployment plan file.
+- Ensure deployer wallet balance is sufficient.
+- Verify latest commit hash and changelog alignment.
+- Ensure your local branch is synced with `origin/main` before generating deploy artifacts.
+- Keep rollback commit reference prepared.
+- Confirm environment variables match the intended target network.
+- Back up the active `.env` file before changing any production-sensitive values.
+- Verify wallet callback and explorer URLs resolve against the same network target.
+- Confirm deploy operator clock is synced to avoid confusing timestamp drift in release logs.
+- Reconfirm deploy wallet can sign transactions before entering the release window.
+
+Companion index: [Operations docs](README.md).
+
+### Predeploy Reminder
+- Confirm the release branch is rebased against the latest signed main commit.
+
+Operational note: Confirm preview and production environment variables are both validated before giving deploy approval.
+
+Operational note: Keep a fallback wallet funded before predeploy validation starts.
+
+Quarterly follow-up: Verify predeploy checklist still matches current release tooling.
+
+Maintenance note: Confirm explorer URLs in release evidence match the selected deployment network.

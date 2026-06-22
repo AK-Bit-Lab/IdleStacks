@@ -1,0 +1,21 @@
+# Support Playbook
+
+- Ask for wallet type, network, and steps to reproduce.
+- Separate UI issues from chain/broadcast issues.
+- Provide workaround when immediate fix is unavailable.
+- Link users to security channel for sensitive reports.
+- Capture timezone when collecting timestamps for incident correlation.
+- Ask whether failure happened at signing, broadcasting, or confirmation to narrow triage quickly.
+- Ask if the issue reproduces in a private browsing window to isolate extension cache side effects.
+
+Companion index: [Operations docs](README.md).
+
+### Support Reminder
+- Ask reporters for network and wallet type before escalating transaction bugs.
+- Request one screenshot of the visible error state before escalation when possible.
+
+Operational note: Include wallet type, network, and recent txid in the first support reply whenever available.
+
+Operational note: Save the first reproducible customer report link in the support timeline.
+
+Quarterly follow-up: Reconfirm support escalation timings in customer-facing templates.

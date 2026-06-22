@@ -1,0 +1,27 @@
+# Frontend Utilities
+
+This directory tracks behavior notes for shared utility modules in `frontend/src/utils`.
+
+Current references:
+
+- [format.js](format.md)
+- [errors.js](errors.md)
+- [hash.js](hash.md)
+- [stacksWallet.js](stacksWallet.md)
+
+Source directory: `frontend/src/utils/`.
+
+- Add new utility docs here whenever frontend helper modules are introduced.
+
+- Add references here whenever new shared utility docs are introduced.
+- Cross-link utility docs to matching test files when behavior contracts are updated.
+
+### Maintenance Note
+
+- Keep utility index links current as helpers are added or renamed.
+
+Maintenance note: Keep utility examples synchronized with current import paths after any folder reshuffle.
+
+Operational note: Document utility side effects explicitly to prevent accidental misuse.
+
+Maintenance note: Recheck utility export names after bundler alias changes.

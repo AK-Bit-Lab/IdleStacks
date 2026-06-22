@@ -1,0 +1,22 @@
+# Transaction Log Schema
+
+Common tx-log fields:
+- `id`
+- `action`
+- `status`
+- `time`
+- `submittedAt`
+- `explorerUrl`
+- `network`
+- `chainTipHeight` (optional, useful for diagnosing delayed confirmations)
+- `errorCode` (optional, for rejected/failed flows)
+- `walletType` (optional, useful for wallet-specific support patterns)
+
+Companion index: [Operations docs](README.md).
+
+### Schema Reminder
+- Keep status enum values aligned with frontend badge mapping before release.
+
+Operational note: Keep `explorerUrl` nullable for pending records to avoid broken external links in UI clients.
+
+Operational note: Keep field naming consistent with exported CSV headers to reduce parsing errors.

@@ -1,0 +1,99 @@
+import { useState, useEffect, useCallback } from 'react';
+import { PRICE_REFRESH_INTERVAL_MS } from '../utils/constants';
+
+/**
+ * Custom hook to fetch and monitor the live STX (Stacks) price in USD.
+ * Utilizes the CoinGecko public API with an automatic 60-second refresh cycle.
+ *
+ * @returns {Object} { price, loading, error }
+ * @property {number|null} price - The current STX price in USD, or null if not yet fetched
+ * @property {boolean} loading - True if the initial price fetch is in progress
+ * @property {Error|null} error - Contains any error object encountered during the fetch
+ */
+export function usePrice() {
+  const [price, setPrice] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [lastFetched, setLastFetched] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    let activeController = null;
+
+    const fetchPrice = async () => {
+      if (activeController) {
+        activeController.abort();
+      }
+
+      if (isMounted) setLoading(true);
+
+      const controller = new AbortController();
+      activeController = controller;
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      try {
+        const response = await fetch(
+          'https://api.coingecko.com/api/v3/simple/price?ids=blockstack&vs_currencies=usd',
+          { signal: controller.signal }
+        );
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+
+        if (isMounted) {
+          const raw = data.blockstack?.usd ?? null;
+          setPrice(raw !== null && Number.isFinite(raw) ? raw : null);
+          setError(null);
+          setLastFetched(Date.now());
+        }
+      } catch (err) {
+        if (err?.name === 'AbortError') return;
+        if (isMounted) {
+          console.error('Failed to fetch STX price:', err);
+          setError(err);
+        }
+      } finally {
+        clearTimeout(timeout);
+        if (activeController === controller) {
+          activeController = null;
+        }
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchPrice();
+    const interval = setInterval(fetchPrice, PRICE_REFRESH_INTERVAL_MS);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+      if (activeController) {
+        activeController.abort();
+      }
+    };
+  }, []);
+
+  const stxValueOf = useCallback(
+    (microStx) => {
+      if (!price || !Number.isFinite(price)) return null;
+      const numericMicroStx = Number(microStx);
+      if (!Number.isFinite(numericMicroStx)) return null;
+      return (numericMicroStx / 1_000_000) * price;
+    },
+    [price]
+  );
+
+  const isStale =
+    lastFetched !== null ? Date.now() - lastFetched > PRICE_REFRESH_INTERVAL_MS * 2 : false;
+
+  const formattedPrice =
+    price !== null && Number.isFinite(price)
+      ? new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 4,
+        }).format(price)
+      : null;
+
+  return { price, loading, error, lastFetched, stxValueOf, isStale, formattedPrice };
+}

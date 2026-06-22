@@ -1,0 +1,54 @@
+import { memo } from 'react';
+import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
+
+const barInitial = { width: 0 };
+const barTransition = { duration: 0.8, ease: 'easeOut' };
+
+/**
+ * XP Progress bar component for displaying player experience points.
+ *
+ * @param {{ currentXP: number, nextLevelXP: number }} props - XP totals for the current level.
+ * @returns {JSX.Element} The rendered progress meter.
+ */
+function XPProgress({ currentXP = 0, nextLevelXP = 100 }) {
+  const safeCurrentXP = Math.max(0, Number.isFinite(currentXP) ? currentXP : 0);
+  const safeNextLevelXP = nextLevelXP > 0 ? nextLevelXP : 100;
+  const percentage = Math.min(100, Math.floor((safeCurrentXP / safeNextLevelXP) * 100));
+
+  return (
+    <div className="xp-progress" title="Experience progress">
+      <div className="xp-labels">
+        <span className="xp-current">{safeCurrentXP.toLocaleString()} XP</span>
+        <span className="xp-next">{safeNextLevelXP.toLocaleString()} XP</span>
+      </div>
+      <div
+        className="xp-bar-track"
+        role="progressbar"
+        aria-valuenow={safeCurrentXP}
+        aria-valuemin={0}
+        aria-valuemax={safeNextLevelXP}
+        aria-label={`${percentage}% to next level`}
+        aria-valuetext={`${safeCurrentXP.toLocaleString()} of ${safeNextLevelXP.toLocaleString()} XP — ${percentage}% to next level`}
+        title={`${safeCurrentXP} / ${safeNextLevelXP} XP`}
+      >
+        <motion.div
+          className="xp-bar-fill"
+          initial={barInitial}
+          animate={{ width: `${percentage}%` }}
+          transition={barTransition}
+        />
+      </div>
+      <span className="xp-percentage" aria-hidden="true">
+        {percentage}%
+      </span>
+    </div>
+  );
+}
+
+XPProgress.propTypes = {
+  currentXP: PropTypes.number,
+  nextLevelXP: PropTypes.number,
+};
+
+export default memo(XPProgress);

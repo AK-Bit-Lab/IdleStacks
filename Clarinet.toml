@@ -1,0 +1,52 @@
+[project]
+name = "stacks-clicker-v2m"
+description = "StacksClicker v2m - Interactive dApp with Clicker, TipJar, and QuickPoll on Stacks (Clarity 2, Epoch 3.0)"
+authors = ["AdekunleBamz"]
+telemetry = false
+cache_dir = "./.cache"
+requirements = []
+
+# ── Active contracts (deployed to new wallet SP5K2RHMSBH4PAP4PGX77MCVNK1ZEED07CWX9TJT) ──
+[contracts.clicker-v2m]
+path = "contracts/archive/clicker-v2m.clar"
+clarity_version = 2
+epoch = 3.0
+
+[contracts.tipjar-v2m]
+path = "contracts/archive/tipjar-v2m.clar"
+clarity_version = 2
+epoch = 3.0
+
+[contracts.quickpoll-v2m]
+path = "contracts/quickpoll-v2m.clar"
+clarity_version = 2
+epoch = 3.0
+
+[contracts.quickpoll-v2n]
+path = "contracts/archive/quickpoll-v2n.clar"
+clarity_version = 2
+epoch = 3.0
+
+[contracts.clicker-v2p]
+path = "contracts/clicker-v2p.clar"
+clarity_version = 2
+epoch = 3.0
+
+[contracts.tipjar-v2p]
+path = "contracts/tipjar-v2p.clar"
+clarity_version = 2
+epoch = 3.0
+
+[contracts.quickpoll-v2p]
+path = "contracts/quickpoll-v2p.clar"
+clarity_version = 2
+epoch = 3.0
+
+[repl.analysis]
+passes = ["check_checker"]
+
+[repl.analysis.check_checker]
+strict = true
+trusted_sender = false
+trusted_caller = false
+callee_filter = false

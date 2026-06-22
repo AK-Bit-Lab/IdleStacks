@@ -1,0 +1,21 @@
+# Release Notes Template
+
+- Summary: one sentence on what changed for clicker, tips, polls, or wallet flows.
+- User impact: call out any visible UI, pricing, or transaction behavior changes.
+- Verification: list the smoke tests or manual checks completed before release.
+- Evidence: include at least one representative transaction/explorer link when on-chain behavior changed.
+- Rollback plan: note the quickest revert path if the release causes regressions.
+- Known limitations: note anything intentionally deferred to a follow-up release.
+- Support note: include one sentence support can reuse when answering user questions.
+
+Companion index: [Operations docs](README.md).
+
+### Template Reminder
+- Capture network, wallet, and contract versions in every release note draft.
+- Add a short mitigation summary when releases include behavior-changing bug fixes.
+
+Operational note: Call out user-visible rollback impact explicitly in every release note draft.
+
+Operational note: Include one user-visible risk callout in every release note draft.
+
+Quarterly follow-up: Validate release note sections still match stakeholder expectations.

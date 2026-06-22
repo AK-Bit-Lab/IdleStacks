@@ -1,0 +1,83 @@
+import { memo } from 'react';
+import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
+
+const cardInitial = { opacity: 0, scale: 0.9 };
+const cardAnimate = { opacity: 1, scale: 1 };
+const cardHoverActive = { y: -5, boxShadow: '0 0 20px hsla(var(--pulse-purple) / 0.2)' };
+const cardHoverLocked = {};
+const glowAnimate = { opacity: [0.3, 0.6, 0.3] };
+const glowTransition = { duration: 3, repeat: Infinity };
+const DEFAULT_ACHIEVEMENT = {
+  icon: '',
+  title: '',
+  description: '',
+  unlocked: false,
+  date: null,
+};
+
+/**
+ * Achievement Component
+ * Displays individual player milestones
+ */
+
+function Achievement({ achievement = DEFAULT_ACHIEVEMENT }) {
+  const { icon, title, description, unlocked, date } = achievement;
+
+  return (
+    <motion.div
+      className={`achievement-card ${unlocked ? 'unlocked' : 'locked'}`}
+      aria-label={`${title} achievement, ${unlocked ? 'unlocked' : 'locked'}`}
+      title={title}
+      role="listitem"
+      initial={cardInitial}
+      animate={cardAnimate}
+      whileHover={unlocked ? cardHoverActive : cardHoverLocked}
+    >
+      <div className="achievement-icon-wrapper">
+        <span className="achievement-icon" aria-hidden="true">
+          {icon}
+        </span>
+        {!unlocked && (
+          <div className="achievement-lock" aria-hidden="true">
+            🔒
+          </div>
+        )}
+      </div>
+
+      <div className="achievement-info">
+        <h3>{title}</h3>
+        <p>{description}</p>
+        {unlocked && date && (
+          <span
+            className="achievement-date"
+            title={`Unlocked on ${date}`}
+            aria-label={`Unlocked on ${date}`}
+          >
+            Unlocked on {date}
+          </span>
+        )}
+      </div>
+
+      {unlocked && (
+        <motion.div
+          className="achievement-glow"
+          animate={glowAnimate}
+          transition={glowTransition}
+        />
+      )}
+    </motion.div>
+  );
+}
+
+Achievement.propTypes = {
+  achievement: PropTypes.shape({
+    icon: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    unlocked: PropTypes.bool,
+    date: PropTypes.string,
+  }),
+};
+
+export default memo(Achievement);

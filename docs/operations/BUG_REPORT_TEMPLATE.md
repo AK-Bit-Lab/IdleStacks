@@ -1,0 +1,19 @@
+# Bug Report Template
+
+- Summary: what broke, where it happened, and whether it blocks on-chain actions.
+- Steps to reproduce: keep the path short and include wallet/network context.
+- Expected result: describe the intended clicker, tip, or poll behavior.
+- Evidence: attach screenshots, console errors, and transaction IDs when available.
+- Impact scope: note whether only one wallet type or network is affected.
+- Include the last known good commit hash when the regression window is known.
+- Include wallet app or extension version when connection or signing fails.
+
+Companion index: [Operations docs](README.md).
+
+### Intake Reminder
+- Capture wallet extension version and active network whenever a report mentions transaction failure.
+- Ask for approximate timestamp and timezone to improve incident correlation speed.
+
+Operational note: Ask reporters for expected behavior and observed behavior as separate fields to speed triage.
+
+Operational note: Ask reporters to include expected behavior alongside actual behavior.

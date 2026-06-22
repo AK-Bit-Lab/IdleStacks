@@ -1,0 +1,23 @@
+# Hotfix Process
+
+- Confirm customer-facing severity.
+- Implement the smallest safe fix.
+- Validate key paths and release quickly.
+- Follow up with root-cause and cleanup tasks.
+- Document the exact commit hash used for hotfix deployment.
+- Confirm the hotfix commit appears as `Verified` before closing the incident timeline.
+- Merge hotfix changes back into the primary development line as soon as the incident is closed.
+- Capture the exact smoke checks run during hotfix validation for post-incident audit.
+
+## Maintenance Note
+- Verify rollback-link references whenever hotfix approval flow is updated.
+
+### Hotfix Reminder
+- Capture rollback owner and communication channel before starting emergency deploys.
+- Define the post-hotfix monitoring window length before announcing resolution.
+
+Operational note: Back-merge hotfix commits into active release branches within the same working day.
+
+Operational note: Include rollback command draft in every hotfix PR before merge.
+
+Quarterly follow-up: Reconfirm hotfix approval contacts before each release window.

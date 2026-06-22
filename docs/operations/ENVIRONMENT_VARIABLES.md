@@ -1,0 +1,39 @@
+# Environment Variables
+
+Manage environment configuration for the Stacks Clicker frontend.
+
+## Setup
+
+Quick reference table:
+
+| Variable                 | Required | Notes                                                    |
+| ------------------------ | -------- | -------------------------------------------------------- |
+| `VITE_DEBUG`             | No       | Enables verbose debug logging                            |
+| `VITE_STACKS_NETWORK`    | No       | Defaults to `mainnet` when omitted                       |
+| `VITE_DEPLOYER_ADDRESS`  | No       | Defaults to the value shipped in `frontend/.env.example` |
+| `VITE_COINGECKO_API_KEY` | No       | Enables higher rate-limit price lookups                  |
+
+Before local startup:
+
+- Verify optional variables match the environment you intend to test
+- Confirm the selected network matches your wallet network
+- Keep separate `.env` snapshots per network when switching frequently during QA
+- Confirm wallet address and deployer address expectations are aligned for the chosen network
+
+Keep secrets in local `.env` files and never commit sensitive values.
+Document new variables in `frontend/.env.example` as soon as they are introduced.
+
+Companion index: [Operations docs](README.md).
+
+### Environment Reminder
+
+- Revalidate required env vars whenever network defaults change between testnet and mainnet.
+- Reconfirm CI and local env var names remain aligned after configuration refactors.
+
+Operational note: After changing env values, restart both the frontend dev server and any local API proxy process.
+
+Operational note: Document which variables are safe to expose in client-side bundles.
+
+Quarterly follow-up: Reconfirm default values for non-production environments.
+
+Maintenance note: Verify client-safe variable names remain prefixed for Vite exposure.

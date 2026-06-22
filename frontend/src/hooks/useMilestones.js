@@ -1,0 +1,53 @@
+import { useState, useEffect, useRef, useCallback } from 'react';
+
+const MILESTONE_THRESHOLDS = [10, 50, 100, 200, 500, 1000, 2000];
+
+/** Number of defined milestone thresholds. */
+export const MILESTONE_COUNT = MILESTONE_THRESHOLDS.length;
+
+/**
+ * Custom hook for managing gameplay milestones and celebrations.
+ * Monitors interaction stats and triggers celebration events at specific thresholds.
+ *
+ * @param {Object} options - Hook options
+ * @param {Object} options.stats - Current gameplay statistics (clicks, tips, votes)
+ * @param {Function} options.onMilestone - Callback triggered when a milestone is reached
+ * @returns {Object} { celebration }
+ * @example
+ * const { celebration } = useMilestones({ stats: { clicks: 10, tips: 0, votes: 0 }, onMilestone: console.log });
+ * // When total hits a threshold: celebration → 'Level Up: 10 Interactions!'
+ */
+export function useMilestones({ stats, onMilestone }) {
+  const [celebration, setCelebration] = useState(null);
+  const celebrationTimeoutRef = useRef(null);
+  const { clicks = 0, tips = 0, votes = 0 } = stats;
+
+  useEffect(() => {
+    const total = clicks + tips + votes;
+
+    if (MILESTONE_THRESHOLDS.includes(total) && total > 0) {
+      const message = `Level Up: ${total} Interactions!`;
+      setCelebration(message);
+      onMilestone?.(total);
+
+      clearTimeout(celebrationTimeoutRef.current);
+      celebrationTimeoutRef.current = setTimeout(() => setCelebration(null), 3500);
+    }
+
+    return () => clearTimeout(celebrationTimeoutRef.current);
+  }, [clicks, tips, votes, onMilestone]);
+
+  const dismissCelebration = useCallback(() => setCelebration(null), []);
+
+  return { celebration, dismissCelebration };
+}
+
+/**
+ * Custom hook that returns true if the given interaction count is at a milestone threshold.
+ *
+ * @param {number} count - The total interaction count to check
+ * @returns {boolean} True if count is a defined milestone
+ */
+export function useIsMilestone(count) {
+  return MILESTONE_THRESHOLDS.includes(Number(count));
+}

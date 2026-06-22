@@ -1,0 +1,253 @@
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useWallet } from '../context/WalletContext';
+import { callContract } from '../utils/stacksWallet';
+import { useSound } from '../hooks/useSound';
+import CountUp from './CountUp';
+
+const DEPLOYER = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N';
+const QUICKPOLL_CONTRACT = 'quickpoll-v2p';
+
+/**
+ * QuickPoll Component
+ * Create and vote on community polls
+ */
+export default function QuickPoll({ onTxSubmit }) {
+  const { isConnected } = useWallet();
+  const { playSound: play } = useSound();
+  const [loading, setLoading] = useState(false);
+  const [pollQuestion, setPollQuestion] = useState('');
+  const [pollId, setPollId] = useState(1);
+  const [votes, setVotes] = useState({ yes: 0, no: 0 });
+
+  const handleCreatePoll = async () => {
+    if (!isConnected || !pollQuestion.trim()) return;
+
+    setPollQuestion('');
+    play('error');
+    console.warn('Poll creation is not available on quickpoll-v2p.');
+  };
+
+  const handleVoteYes = async () => {
+    if (!isConnected) return;
+
+    setLoading(true);
+    try {
+      const result = await callContract({
+        contractAddress: DEPLOYER,
+        contractName: QUICKPOLL_CONTRACT,
+        functionName: 'vote-yes',
+        functionArgs: [],
+      });
+
+      setVotes((prev) => ({ ...prev, yes: prev.yes + 1 }));
+      onTxSubmit?.('vote-yes', result.txId);
+      play('success');
+    } catch (err) {
+      console.error('Vote yes failed:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVoteNo = async () => {
+    if (!isConnected) return;
+
+    setLoading(true);
+    try {
+      const result = await callContract({
+        contractAddress: DEPLOYER,
+        contractName: QUICKPOLL_CONTRACT,
+        functionName: 'vote-no',
+        functionArgs: [],
+      });
+
+      setVotes((prev) => ({ ...prev, no: prev.no + 1 }));
+      onTxSubmit?.('vote-no', result.txId);
+      play('success');
+    } catch (err) {
+      console.error('Vote no failed:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleQuickVoteYes = async () => {
+    if (!isConnected) return;
+
+    setLoading(true);
+    try {
+      const result = await callContract({
+        contractAddress: DEPLOYER,
+        contractName: QUICKPOLL_CONTRACT,
+        functionName: 'vote-yes',
+        functionArgs: [],
+      });
+
+      setVotes((prev) => ({ ...prev, yes: prev.yes + 1 }));
+      onTxSubmit?.('quick-vote-yes', result.txId);
+    } catch (err) {
+      console.error('Quick vote yes failed:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleQuickVoteNo = async () => {
+    if (!isConnected) return;
+
+    setLoading(true);
+    try {
+      const result = await callContract({
+        contractAddress: DEPLOYER,
+        contractName: QUICKPOLL_CONTRACT,
+        functionName: 'vote-no',
+        functionArgs: [],
+      });
+
+      setVotes((prev) => ({ ...prev, no: prev.no + 1 }));
+      onTxSubmit?.('quick-vote-no', result.txId);
+    } catch (err) {
+      console.error('Quick vote no failed:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePollPing = async () => {
+    if (!isConnected) return;
+
+    setLoading(true);
+    try {
+      const result = await callContract({
+        contractAddress: DEPLOYER,
+        contractName: 'quickpoll-v2p',
+        functionName: 'ping',
+        functionArgs: [],
+      });
+
+      onTxSubmit?.('poll-ping', result.txId);
+    } catch (err) {
+      console.error('Poll ping failed:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="game-card quickpoll">
+      <div className="game-header">
+        <h2 aria-label="QuickPoll Interactive Component">🗳️ QuickPoll</h2>
+        <span className="game-badge" title="Live decentralized community voting portal">
+          Community Voting
+        </span>
+      </div>
+
+      <div className="game-stats" aria-label="Live Polling Statistics">
+        <div className="stat-row">
+          <span className="stat-label">Yes Votes</span>
+          <span className="stat-value">{votes.yes}</span>
+        </div>
+        <div className="stat">
+          <span className="stat-value">
+            <CountUp value={votes.no} />
+          </span>
+          <span className="stat-label">No Votes</span>
+        </div>
+      </div>
+
+      <div className="game-actions" role="group" aria-label="Game Polling Controls">
+        <div className="poll-create">
+          <input
+            type="text"
+            placeholder="Enter poll question..."
+            value={pollQuestion}
+            onChange={(e) => setPollQuestion(e.target.value)}
+            className="poll-input"
+            maxLength={200}
+            aria-label="Poll Question"
+          />
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="action-btn primary"
+            onClick={handleCreatePoll}
+            disabled={!isConnected || loading || !pollQuestion.trim()}
+            title="Publish this poll to the network"
+          >
+            Create Poll
+          </motion.button>
+        </div>
+
+        <div className="vote-buttons">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="action-btn vote-yes"
+            onClick={handleQuickVoteYes}
+            disabled={!isConnected || loading}
+            title="Quick cast Yes vote"
+          >
+            👍 Quick Yes
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="action-btn vote-no"
+            onClick={handleQuickVoteNo}
+            disabled={!isConnected || loading}
+            title="Quick cast No vote"
+          >
+            👎 Quick No
+          </motion.button>
+        </div>
+
+        <div className="poll-specific">
+          <input
+            id="poll-id-input"
+            type="number"
+            min="1"
+            value={pollId}
+            onChange={(e) => setPollId(Math.max(1, Number.parseInt(e.target.value, 10) || 1))}
+            className="poll-id-input"
+            placeholder="Poll ID"
+            aria-label="Target Poll ID"
+            title="Enter the poll ID you want to vote on"
+          />
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="action-btn secondary"
+            onClick={handleVoteYes}
+            disabled={!isConnected || loading}
+          >
+            Vote Yes #{pollId}
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="action-btn secondary"
+            onClick={handleVoteNo}
+            disabled={!isConnected || loading}
+          >
+            Vote No #{pollId}
+          </motion.button>
+        </div>
+
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="action-btn outline"
+          onClick={handlePollPing}
+          disabled={!isConnected || loading}
+        >
+          📡 Poll Ping
+        </motion.button>
+      </div>
+
+      <p className="game-fee" style={{ color: 'var(--text-muted)', fontWeight: 500 }}>
+        Fee: 0.0001 STX per action
+      </p>
+    </div>
+  );
+}

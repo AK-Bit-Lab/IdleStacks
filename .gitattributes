@@ -1,0 +1,53 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Clarity smart contracts
+*.clar text linguist-language=Lisp
+
+# JavaScript/TypeScript
+*.js text
+*.ts text
+*.jsx text
+*.tsx text
+*.json text
+*.mjs text
+
+# CSS and stylesheets
+*.css text
+*.scss text
+
+# Documentation
+*.md text
+*.yml text
+*.yaml text
+
+# Configuration
+*.toml text
+.editorconfig text
+.gitignore text
+.gitattributes text
+.env.example text
+
+# Shell scripts
+*.sh text eol=lf
+
+# HTML and templates
+*.html text
+*.htm text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.mp3 binary
+*.mp4 binary
+*.webm binary
+*.pdf binary
+*.zip binary

@@ -111,3 +111,5 @@ test-results/
 # Vitest
 .vitest/
 .vercel
+settings/*.toml
+settings/*.toml

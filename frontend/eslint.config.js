@@ -67,6 +67,7 @@ export default [
       'react/prop-types': 'off',
       'no-unused-vars': 'warn',
       'react/jsx-no-target-blank': 'warn',
+      'react/jsx-key': ['warn', { checkFragmentShorthand: true, checkKeyMustBeforeSpread: true }],
     },
     settings: {
       react: {

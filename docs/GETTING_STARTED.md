@@ -22,8 +22,8 @@ Stacks Clicker is a GameFi sample application built on the Stacks blockchain (Bi
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/AdekunleBamz/stacks-clicker.git
-cd stacks-clicker
+git clone https://github.com/AK-Bit-Lab/IdleStacks.git
+cd IdleStacks
 ```
 
 ### 2. Install frontend dependencies
@@ -59,7 +59,7 @@ npm run dev
 ```
 
 Visit `http://localhost:5173` to interact with the dApp.
-From the repository root, you can run `npm run frontend:dev` for the same command.
+From the repository root, run `npm run dev --prefix frontend` for the same command.
 
 ## 🧪 Testing
 
@@ -97,14 +97,6 @@ Current active contract names used by the frontend:
 - `tipjar-v2p`
 - `quickpoll-v2p`
 
-Need help? Open an issue on [GitHub](https://github.com/AdekunleBamz/stacks-clicker/issues).
+Need help? Open an issue on [GitHub](https://github.com/AK-Bit-Lab/IdleStacks/issues).
 
 Tip: Run one click transaction after setup to confirm wallet, network, and contract wiring all match.
-
-### Setup Reminder
-
-- Reconfirm frontend env defaults after switching deployment targets.
-
-Operational note: Confirm Node and npm versions match the project defaults before onboarding.
-
-Quarterly follow-up: Verify onboarding commands against the latest package manager defaults.

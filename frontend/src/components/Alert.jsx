@@ -19,16 +19,30 @@ const ALERT_VARIANTS = {
  * @param {('info'|'success'|'warning'|'error')} [props.variant='info'] - Semantic variant
  * @param {string} [props.title] - Optional alert title
  * @param {React.ReactNode} [props.icon] - Optional leading icon
+ * @param {Function} [props.onClose] - If provided, renders a dismiss button that calls this handler
  * @returns {JSX.Element} Alert component
  */
-const Alert = ({ children, variant = 'info', title, icon }) => {
+const Alert = ({ children, variant = 'info', title, icon, onClose }) => {
   return (
-    <div className={`p-4 rounded-lg border flex gap-3 ${ALERT_VARIANTS[variant] || ALERT_VARIANTS.info}`}>
+    <div
+      className={`p-4 rounded-lg border flex gap-3 ${ALERT_VARIANTS[variant] || ALERT_VARIANTS.info}`}
+      role="alert"
+    >
       {icon && <div className="mt-0.5 shrink-0 opacity-80">{icon}</div>}
-      <div>
+      <div className="flex-1 min-w-0">
         {title && <h4 className="text-sm font-bold mb-1 opacity-90">{title}</h4>}
         <div className="text-sm opacity-80 whitespace-pre-wrap">{children}</div>
       </div>
+      {onClose && (
+        <button
+          type="button"
+          onClick={onClose}
+          className="ml-auto shrink-0 opacity-60 hover:opacity-100 transition-opacity"
+          aria-label="Dismiss alert"
+        >
+          &#x2715;
+        </button>
+      )}
     </div>
   );
 };

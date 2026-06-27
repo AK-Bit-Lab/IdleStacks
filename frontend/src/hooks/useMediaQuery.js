@@ -1,19 +1,29 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * Custom hook for evaluating a CSS media query.
+ * SSR-safe: initialises with false on the server and syncs on the client.
+ *
+ * @param {string} query - A valid CSS media query string, e.g. "(max-width: 768px)"
+ * @returns {boolean} Whether the query currently matches
+ */
 export function useMediaQuery(query) {
-  const [matches, setMatches] = useState(false);
+  const [matches, setMatches] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia(query).matches;
+  });
 
   useEffect(() => {
-    const media = window.matchMedia(query);
-    if (media.matches !== matches) {
-      setMatches(media.matches);
-    }
+    if (typeof window === 'undefined') return;
 
-    const listener = () => setMatches(media.matches);
+    const media = window.matchMedia(query);
+    setMatches(media.matches);
+
+    const listener = (e) => setMatches(e.matches);
     media.addEventListener('change', listener);
-    
+
     return () => media.removeEventListener('change', listener);
-  }, [matches, query]);
+  }, [query]);
 
   return matches;
 }

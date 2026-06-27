@@ -17,6 +17,16 @@ const connectHover = { scale: 1.05, translateY: -2 };
 const connectTap = { scale: 0.95 };
 
 /**
+ * Standard wallet connection state text labels
+ * @type {Record<string, string>}
+ */
+const WALLET_LABELS = {
+  connect: 'Connect Wallet',
+  connecting: 'Connecting...',
+  disconnect: 'Disconnect',
+};
+
+/**
  * Wallet connection button component with enhanced accessibility
  * Shows connect/disconnect based on connection state
  *
@@ -108,7 +118,7 @@ export default function ConnectButton() {
               aria-busy={isConnecting}
               disabled={isConnecting}
             >
-              Disconnect
+              {WALLET_LABELS.disconnect}
             </motion.button>
             <span id="disconnect-description" className="sr-only">
               Click to disconnect your Stacks wallet from the application
@@ -130,7 +140,7 @@ export default function ConnectButton() {
             aria-busy={isConnecting}
             disabled={isConnecting}
           >
-            {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+            {isConnecting ? WALLET_LABELS.connecting : WALLET_LABELS.connect}
           </motion.button>
         )}
       </AnimatePresence>

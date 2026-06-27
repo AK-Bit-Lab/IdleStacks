@@ -7,6 +7,11 @@ import { DEPLOYER_ADDRESS, CONTRACT_NAMES } from '../config/contracts';
 /** @constant {string} TipJar contract name */
 const CONTRACT_NAME = CONTRACT_NAMES.tipjar;
 
+const ACTION_KEYS = Object.freeze({
+  TIP: '💰 Tip',
+  SELF_PING: 'self-ping',
+});
+
 /**
  * Custom hook for TipJar contract interactions.
  * @param {Object} options - Hook options.
@@ -19,7 +24,10 @@ export function useTipJar({ onTxSubmit } = {}) {
 
   const executeAction = useCallback(
     async (key, functionName, functionArgs = []) => {
-      if (!isConnected) return;
+      if (!isConnected) {
+        notify.error('Connect your wallet before using TipJar.');
+        return undefined;
+      }
       setLoadingStates((prev) => ({ ...prev, [key]: true }));
       try {
         const result = await callContract({
@@ -43,7 +51,7 @@ export function useTipJar({ onTxSubmit } = {}) {
   const tip = useCallback(
     (amount = 1000) => {
       const normalizedAmount = Number.isFinite(amount) && amount > 0 ? Math.floor(amount) : 1000;
-      return executeAction('💰 Tip', 'tip', [
+      return executeAction(ACTION_KEYS.TIP, 'tip', [
         { type: 'uint128', value: normalizedAmount.toString() },
       ]);
     },
@@ -54,7 +62,7 @@ export function useTipJar({ onTxSubmit } = {}) {
     return undefined;
   }, []);
   const handleSelfPing = useCallback(
-    () => executeAction('self-ping', 'ping'),
+    () => executeAction(ACTION_KEYS.SELF_PING, 'ping'),
     [executeAction]
   );
 

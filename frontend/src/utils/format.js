@@ -92,3 +92,16 @@ export const formatBytes = (bytes, decimals = 2) => {
   const i = Math.floor(Math.log(Math.abs(bytes)) / Math.log(k));
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(decimals))} ${sizes[i]}`;
 };
+
+/**
+ * Formats a decimal fraction as a percentage string.
+ *
+ * @param {number} value - A fraction between 0 and 1 (e.g. 0.75 => "75%")
+ * @param {number} [decimals=1] - Number of decimal places
+ * @returns {string}
+ */
+export const formatPercentage = (value, decimals = 1) => {
+  const n = Number(value);
+  if (Number.isNaN(n)) return '0%';
+  return `${(n * 100).toFixed(decimals)}%`;
+};

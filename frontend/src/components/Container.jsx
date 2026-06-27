@@ -1,6 +1,12 @@
 import React from 'react';
 
 /**
+ * Default container styling classes
+ * @type {string}
+ */
+const CONTAINER_BASE_STYLES = 'w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8';
+
+/**
  * Container layout component to constrain content width.
  *
  * @param {Object} props - Container props
@@ -10,9 +16,7 @@ import React from 'react';
  */
 const Container = ({ children, className = '' }) => {
   return (
-    <div className={`w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>
-      {children}
-    </div>
+    <div className={`${CONTAINER_BASE_STYLES} ${className}`}>{children}</div>
   );
 };
 

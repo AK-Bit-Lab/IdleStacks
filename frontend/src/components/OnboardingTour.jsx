@@ -5,7 +5,11 @@ const cardInitial = { opacity: 0, scale: 0.9, y: 20 };
 const cardAnimate = { opacity: 1, scale: 1, y: 0 };
 const cardExit = { opacity: 0, scale: 0.9, y: 20 };
 
-const steps = [
+/**
+ * OnboardingTour step definitions
+ * @type {Array<{target: string, content: string}>}
+ */
+const TOUR_STEPS = [
   {
     target: 'logo',
     content: 'Welcome to Stacks Clicker V2! This is your gateway to the Stacks ecosystem.',
@@ -24,6 +28,12 @@ const steps = [
   },
 ];
 
+/**
+ * OnboardingTour Component
+ * Interactive state machine managing the first-time user tutorial
+ * 
+ * @returns {JSX.Element|null}
+ */
 export default function OnboardingTour() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -64,7 +74,7 @@ export default function OnboardingTour() {
   }, []);
 
   const handleNext = useCallback(() => {
-    if (currentStep < steps.length - 1) {
+    if (currentStep < TOUR_STEPS.length - 1) {
       setCurrentStep((prev) => prev + 1);
     } else {
       dismiss();
@@ -97,7 +107,7 @@ export default function OnboardingTour() {
           </h2>
           <div className="tour-header">
             <div className="tour-step-dots">
-              {steps.map((_, i) => (
+              {TOUR_STEPS.map((_, i) => (
                 <div
                   key={i}
                   className={`step-dot ${i === currentStep ? 'active' : ''}`}
@@ -121,9 +131,9 @@ export default function OnboardingTour() {
             aria-live="polite"
             style={{ fontVariantNumeric: 'tabular-nums' }}
           >
-            Step {currentStep + 1} of {steps.length}
+            Step {currentStep + 1} of {TOUR_STEPS.length}
           </div>
-          <p className="tour-content">{steps[currentStep].content}</p>
+          <p className="tour-content">{TOUR_STEPS[currentStep].content}</p>
           <div className="tour-footer" role="navigation" aria-label="Tour Navigation">
             <div className="footer-left">
               <button
@@ -141,7 +151,7 @@ export default function OnboardingTour() {
               )}
             </div>
             <button type="button" className="tour-next" onClick={handleNext}>
-              {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
+              {currentStep === TOUR_STEPS.length - 1 ? 'Get Started' : 'Next'}
             </button>
           </div>
         </motion.div>

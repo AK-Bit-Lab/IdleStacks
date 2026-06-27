@@ -7,10 +7,15 @@ import CountUp from './CountUp';
 
 const DEPLOYER = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N';
 const QUICKPOLL_CONTRACT = 'quickpoll-v2p';
+const POLL_FEE = '0.0001';
 
 /**
  * QuickPoll Component
  * Create and vote on community polls
+ * 
+ * @param {Object} props
+ * @param {function} props.onTxSubmit - Callback for transaction submission
+ * @returns {JSX.Element}
  */
 export default function QuickPoll({ onTxSubmit }) {
   const { isConnected } = useWallet();
@@ -121,7 +126,7 @@ export default function QuickPoll({ onTxSubmit }) {
     try {
       const result = await callContract({
         contractAddress: DEPLOYER,
-        contractName: 'quickpoll-v2p',
+        contractName: QUICKPOLL_CONTRACT,
         functionName: 'ping',
         functionArgs: [],
       });
@@ -246,7 +251,7 @@ export default function QuickPoll({ onTxSubmit }) {
       </div>
 
       <p className="game-fee" style={{ color: 'var(--text-muted)', fontWeight: 500 }}>
-        Fee: 0.0001 STX per action
+        Fee: {POLL_FEE} STX per action
       </p>
     </div>
   );

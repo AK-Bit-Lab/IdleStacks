@@ -8,10 +8,16 @@ import soundEngine from '../utils/SoundEngine';
 
 // Contract deployer address for the Stacks Clicker game contracts
 const DEPLOYER = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N';
+const CONTRACT_NAME = 'clicker-v2p';
+const GAME_FEE = '0.0001';
 
 /**
  * Clicker Game Component
  * Click to earn streaks and compete!
+ * 
+ * @param {Object} props
+ * @param {function} props.onTxSubmit - Callback for transaction submission
+ * @returns {JSX.Element}
  */
 export default function ClickerGame({ onTxSubmit }) {
   const { isConnected } = useWallet();
@@ -40,7 +46,7 @@ export default function ClickerGame({ onTxSubmit }) {
     try {
       const result = await callContract({
         contractAddress: DEPLOYER,
-        contractName: 'clicker-v2p',
+        contractName: CONTRACT_NAME,
         functionName: 'click',
         functionArgs: [],
       });
@@ -66,7 +72,7 @@ export default function ClickerGame({ onTxSubmit }) {
     try {
       const result = await callContract({
         contractAddress: DEPLOYER,
-        contractName: 'clicker-v2p',
+        contractName: CONTRACT_NAME,
         functionName: 'ping',
         functionArgs: [],
       });
@@ -126,7 +132,7 @@ export default function ClickerGame({ onTxSubmit }) {
         </motion.button>
       </div>
 
-      <p className="game-fee">Fee: 0.0001 STX per action</p>
+      <p className="game-fee">Fee: {GAME_FEE} STX per action</p>
     </div>
   );
 }

@@ -1,13 +1,25 @@
 import React from 'react';
 
-const Table = ({ headers, data, renderRow, emptyMessage = "No data available", className = '' }) => {
+const Table = ({
+  headers,
+  data,
+  renderRow,
+  emptyMessage = 'No data available',
+  className = '',
+  caption,
+}) => {
   return (
-    <div className={`w-full overflow-x-auto rounded-lg border border-gray-700/50 bg-gray-800/20 ${className}`}>
+    <div
+      className={`w-full overflow-x-auto rounded-lg border border-gray-700/50 bg-gray-800/20 ${className}`}
+    >
       <table className="w-full text-left text-sm text-gray-300">
+        {caption && <caption className="sr-only">{caption}</caption>}
         <thead className="bg-gray-800/80 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-700/50">
           <tr>
             {headers.map((header, idx) => (
-              <th key={idx} scope="col" className="px-6 py-3">{header}</th>
+              <th key={idx} scope="col" className="px-6 py-3">
+                {header}
+              </th>
             ))}
           </tr>
         </thead>

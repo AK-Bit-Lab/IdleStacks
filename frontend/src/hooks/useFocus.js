@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 /**
  * Custom hook for tracking the focus state of an element.
  *
- * @returns {[Object, boolean]} [ref, isFocused]
+ * @returns {[React.MutableRefObject, boolean, Function, Function]} [ref, isFocused, blur, focus]
  */
 export function useFocus() {
   const [isFocused, setIsFocused] = useState(false);

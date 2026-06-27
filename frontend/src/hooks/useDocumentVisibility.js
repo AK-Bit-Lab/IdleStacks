@@ -1,6 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 
 /**
+ * Constant safely detecting the browser environment to prevent SSR errors
+ * @type {boolean}
+ */
+const IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+
+/**
  * Custom hook for tracking the visibility of the current document (tab active/hidden).
  * Useful for pausing/resuming expensive operations like polling or animations.
  *
@@ -8,13 +14,13 @@ import { useState, useEffect, useRef } from 'react';
  */
 export function useDocumentVisibility() {
   const [isVisible, setIsVisible] = useState(
-    typeof document !== 'undefined' ? document.visibilityState === 'visible' : true
+    IS_BROWSER ? document.visibilityState === 'visible' : true
   );
   const [hiddenCount, setHiddenCount] = useState(0);
   const prevVisible = useRef(isVisible);
 
   useEffect(() => {
-    if (typeof document === 'undefined') return;
+    if (!IS_BROWSER) return;
 
     const handleVisibilityChange = () => {
       const visible = document.visibilityState === 'visible';
@@ -28,7 +34,9 @@ export function useDocumentVisibility() {
     document.addEventListener('visibilitychange', handleVisibilityChange, { passive: true });
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (IS_BROWSER) {
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+      }
     };
   }, []);
 

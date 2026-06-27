@@ -9,6 +9,13 @@ export const STACKS_NETWORK =
     ? 'testnet'
     : 'mainnet';
 
+/** Lightweight network helper used by explorer and UI status components. */
+export const APP_NETWORK = Object.freeze({
+  name: STACKS_NETWORK,
+  isMainnet: () => STACKS_NETWORK === 'mainnet',
+  isTestnet: () => STACKS_NETWORK === 'testnet',
+});
+
 /** @type {string} Smart contract deployer address */
 export const DEPLOYER = import.meta.env.VITE_DEPLOYER_ADDRESS || '';
 
@@ -36,6 +43,7 @@ export default {
   DEPLOYER,
   CONTRACTS,
   STACKS_NETWORK,
+  APP_NETWORK,
   CONFIG,
   HIRO_EXPLORER_TX_BASE,
 };

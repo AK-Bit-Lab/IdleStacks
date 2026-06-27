@@ -1,5 +1,15 @@
 import React from 'react';
 
+/**
+ * Alert component for displaying semantic messages and notifications.
+ *
+ * @param {Object} props - Alert props
+ * @param {React.ReactNode} props.children - Alert body content
+ * @param {('info'|'success'|'warning'|'error')} [props.variant='info'] - Semantic variant
+ * @param {string} [props.title] - Optional alert title
+ * @param {React.ReactNode} [props.icon] - Optional leading icon
+ * @returns {JSX.Element} Alert component
+ */
 const Alert = ({ children, variant = 'info', title, icon }) => {
   const variants = {
     info: 'bg-blue-500/10 border-blue-500/30 text-blue-400',

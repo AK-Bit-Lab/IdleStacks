@@ -54,9 +54,7 @@ export function useClipboard({ timeout = 2000 } = {}) {
         setCopied(true);
         notify.success('Copied to clipboard!');
 
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-        }
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
         timeoutRef.current = setTimeout(() => {
           setCopied(false);

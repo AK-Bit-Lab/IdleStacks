@@ -4,8 +4,12 @@ import { useEffect, useRef } from 'react';
  * Custom hook for capturing the previous value of a prop or state.
  * Useful for comparing old vs new values to trigger side effects.
  *
- * @param {any} value - The current value to track
- * @returns {any} The value from the previous render
+ * Note: returns `undefined` on the very first render because no prior value exists yet.
+ * Use `useHasChanged` below if you need to distinguish first-render explicitly.
+ *
+ * @template T
+ * @param {T} value - The current value to track
+ * @returns {T|undefined} The value from the previous render, undefined on first render
  */
 export function usePrevious(value) {
   const ref = useRef();

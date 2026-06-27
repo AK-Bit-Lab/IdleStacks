@@ -29,13 +29,30 @@ const BADGE_SIZES = {
  * @param {React.ReactNode} props.children - Badge content
  * @param {('primary'|'success'|'warning'|'danger'|'neutral')} [props.variant='primary'] - Visual style variant
  * @param {('sm'|'md'|'lg')} [props.size='md'] - Size variant
+ * @param {boolean} [props.dot=false] - Show a leading status dot instead of text content
+ * @param {React.ReactNode} [props.icon] - Optional icon rendered before children
  * @returns {JSX.Element} Badge component
  */
-const Badge = ({ children, variant = 'primary', size = 'md' }) => {
+const Badge = ({ children, variant = 'primary', size = 'md', dot = false, icon }) => {
+  if (dot) {
+    return (
+      <span
+        className={`inline-block w-2 h-2 rounded-full ${BADGE_VARIANTS[variant] || BADGE_VARIANTS.primary}`}
+        role="status"
+        aria-label={typeof children === 'string' ? children : variant}
+      />
+    );
+  }
+
   return (
     <span
-      className={`inline-flex items-center justify-center font-medium rounded-full ${BADGE_VARIANTS[variant] || BADGE_VARIANTS.primary} ${BADGE_SIZES[size] || BADGE_SIZES.md}`}
+      className={`inline-flex items-center gap-1 justify-center font-medium rounded-full ${BADGE_VARIANTS[variant] || BADGE_VARIANTS.primary} ${BADGE_SIZES[size] || BADGE_SIZES.md}`}
     >
+      {icon && (
+        <span className="shrink-0" aria-hidden="true">
+          {icon}
+        </span>
+      )}
       {children}
     </span>
   );

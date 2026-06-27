@@ -14,6 +14,17 @@ const PARTICLE_COLORS = [
 const PARTICLE_COUNT = 3;
 
 /**
+ * Common level progression thresholds
+ * @type {Record<string, number>}
+ */
+export const LEVEL_THRESHOLDS = {
+  ROOKIE: 1,
+  PRO: 10,
+  ELITE: 50,
+  MASTER: 100,
+};
+
+/**
  * LevelBadge Component
  * Displays the current level with a premium, animated badge
  *

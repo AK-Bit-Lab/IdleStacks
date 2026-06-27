@@ -13,10 +13,15 @@ const itemWhileHover = {
 };
 const MEDALS = ['🥇', '🥈', '🥉'];
 const EMPTY_PLAYERS = [];
+const PAGE_SIZE = 10;
 
 /**
  * Leaderboard Component
  * Displays top players in a vibrant, ranked list
+ * 
+ * @param {Object} props
+ * @param {Array<{address: string, clicks: number, level: number}>} [props.players=EMPTY_PLAYERS] - Array of player records
+ * @returns {JSX.Element}
  */
 function Leaderboard({ players = EMPTY_PLAYERS }) {
   return (
@@ -36,9 +41,9 @@ function Leaderboard({ players = EMPTY_PLAYERS }) {
             No players yet. Be the first!
           </p>
         )}
-        {players.map((player, i) => (
+        {players.slice(0, PAGE_SIZE).map((player, i) => (
           <motion.div
-            key={player.address}
+            key={player.address || i}
             className={`leaderboard-item rank-${i + 1}`}
             role="listitem"
             initial={itemInitial}

@@ -32,9 +32,10 @@ function fallbackCopy(text) {
  *
  * @param {Object} options - Hook options
  * @param {number} [options.timeout=2000] - Duration in ms before the copied state resets
+ * @param {boolean} [options.notifyOnCopy=true] - Whether to show toast feedback
  * @returns {{ copied: boolean, copyToClipboard: Function }} Clipboard state and copy action
  */
-export function useClipboard({ timeout = 2000 } = {}) {
+export function useClipboard({ timeout = 2000, notifyOnCopy = true } = {}) {
   const safeTimeout = Number.isFinite(timeout) && timeout > 0 ? timeout : 2000;
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef(null);
@@ -47,12 +48,12 @@ export function useClipboard({ timeout = 2000 } = {}) {
         if (navigator?.clipboard?.writeText) {
           await navigator.clipboard.writeText(text);
         } else if (!fallbackCopy(text)) {
-          notify.error('Clipboard not available');
+          if (notifyOnCopy) notify.error('Clipboard not available');
           return false;
         }
 
         setCopied(true);
-        notify.success('Copied to clipboard!');
+        if (notifyOnCopy) notify.success('Copied to clipboard!');
 
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
@@ -64,7 +65,7 @@ export function useClipboard({ timeout = 2000 } = {}) {
       } catch (error) {
         if (fallbackCopy(text)) {
           setCopied(true);
-          notify.success('Copied to clipboard!');
+          if (notifyOnCopy) notify.success('Copied to clipboard!');
 
           if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
@@ -78,11 +79,11 @@ export function useClipboard({ timeout = 2000 } = {}) {
         }
 
         console.error('Failed to copy text:', error);
-        notify.error('Unable to copy');
+        if (notifyOnCopy) notify.error('Unable to copy');
         return false;
       }
     },
-    [safeTimeout]
+    [safeTimeout, notifyOnCopy]
   );
 
   useEffect(() => {

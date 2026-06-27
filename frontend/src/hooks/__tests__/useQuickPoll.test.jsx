@@ -13,6 +13,7 @@ vi.mock('../../utils/stacksWallet', () => ({
 vi.mock('../../utils/toast', () => ({
   notify: {
     info: vi.fn(),
+    error: vi.fn(),
   },
 }));
 
@@ -23,6 +24,12 @@ const walletValue = {
 
 const wrapper = ({ children }) => (
   <WalletContext.Provider value={walletValue}>{children}</WalletContext.Provider>
+);
+
+const disconnectedWrapper = ({ children }) => (
+  <WalletContext.Provider value={{ ...walletValue, isConnected: false }}>
+    {children}
+  </WalletContext.Provider>
 );
 
 describe('useQuickPoll hook', () => {
@@ -61,6 +68,19 @@ describe('useQuickPoll hook', () => {
     });
 
     expect(callContract).not.toHaveBeenCalled();
-    expect(notify.info).toHaveBeenCalledWith('Poll creation is not available on this contract version.');
+    expect(notify.info).toHaveBeenCalledWith(
+      'Poll creation is not available on this contract version.'
+    );
+  });
+
+  it('shows a wallet guard message when disconnected', async () => {
+    const { result } = renderHook(() => useQuickPoll(), { wrapper: disconnectedWrapper });
+
+    await act(async () => {
+      await result.current.vote(1, 'yes');
+    });
+
+    expect(callContract).not.toHaveBeenCalled();
+    expect(notify.error).toHaveBeenCalledWith('Connect your wallet before using QuickPoll.');
   });
 });

@@ -83,3 +83,28 @@ export function isSameDay(a, b) {
     dateA.getDate() === dateB.getDate()
   );
 }
+
+/**
+ * Returns true if the given timestamp is in the past.
+ *
+ * @param {number|string} timestamp - Unix ms or ISO date string
+ * @returns {boolean}
+ */
+export function isExpired(timestamp) {
+  if (!timestamp) return false;
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return false;
+  return date.getTime() < Date.now();
+}
+
+/**
+ * Returns a new Date set to midnight (00:00:00.000) of the given date.
+ *
+ * @param {number|string|Date} [date=new Date()] - Input date
+ * @returns {Date}
+ */
+export function startOfDay(date = new Date()) {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}

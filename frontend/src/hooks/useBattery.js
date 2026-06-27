@@ -25,12 +25,15 @@ export function useBattery() {
     let onBatteryChange = null;
     let cancelled = false;
 
+    const BATTERY_THRESHOLD_LOW = 0.2;
+    const BATTERY_THRESHOLD_CRITICAL = 0.05;
+
     const updateBattery = (batt) => {
       setBattery({
         level: batt.level,
         charging: batt.charging,
-        isLowBattery: batt.level <= 0.2 && !batt.charging,
-        isCritical: batt.level <= 0.05 && !batt.charging,
+        isLowBattery: batt.level <= BATTERY_THRESHOLD_LOW && !batt.charging,
+        isCritical: batt.level <= BATTERY_THRESHOLD_CRITICAL && !batt.charging,
         supported: true,
       });
     };

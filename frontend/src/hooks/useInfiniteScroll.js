@@ -9,7 +9,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
  * @param {boolean} [options.isEnabled=true] - Whether infinite scroll is enabled
  * @param {number} [options.debounceMs=200] - Debounce time in milliseconds
  * @returns {Object} Infinite scroll state and handlers
- * @returns {React.RefObject} return.targetRef - Ref to attach to the scrollable container
+ * @returns {React.MutableRefObject} return.targetRef - Ref to attach to the scrollable container
  * @returns {boolean} return.isLoading - Whether currently loading more items
  * @returns {boolean} return.hasLoadedAll - Whether all items have been loaded
  * @returns {Function} return.loadMore - Function to manually trigger load more
@@ -104,7 +104,7 @@ export function useInfiniteScroll({ threshold = 100, isEnabled = true, debounceM
 
     element.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      element.removeEventListener('scroll', handleScroll);
+      element.removeEventListener('scroll', handleScroll, { passive: true });
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
       }

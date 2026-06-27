@@ -6,6 +6,9 @@ import { useSound } from '../hooks/useSound';
 import CountUp from './CountUp';
 
 const DEPLOYER = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N';
+const TIPJAR_CONTRACT = 'tipjar-v2p';
+const DEFAULT_TIP_USTX = 1000;
+const MIN_TIP_USTX = 1000;
 
 /**
  * TipJar Component.
@@ -18,7 +21,7 @@ export default function TipJar({ onTxSubmit }) {
   const { isConnected } = useWallet();
   const { playSound: play } = useSound();
   const [loading, setLoading] = useState(false);
-  const [tipAmount, setTipAmount] = useState(1000); // 1000 uSTX = 0.001 STX (minimum tip)
+  const [tipAmount, setTipAmount] = useState(DEFAULT_TIP_USTX); // 1000 uSTX = 0.001 STX (minimum tip)
   const [recipientAddress, setRecipientAddress] = useState('');
   const [totalTipped, setTotalTipped] = useState(0);
 
@@ -29,7 +32,7 @@ export default function TipJar({ onTxSubmit }) {
     try {
       const result = await callContract({
         contractAddress: DEPLOYER,
-        contractName: 'tipjar-v2p',
+        contractName: TIPJAR_CONTRACT,
         functionName: 'quick-tip',
         functionArgs: [],
       });
@@ -52,7 +55,7 @@ export default function TipJar({ onTxSubmit }) {
     try {
       const result = await callContract({
         contractAddress: DEPLOYER,
-        contractName: 'tipjar-v2p',
+        contractName: TIPJAR_CONTRACT,
         functionName: 'ping',
         functionArgs: [],
       });
@@ -75,7 +78,7 @@ export default function TipJar({ onTxSubmit }) {
     try {
       const result = await callContract({
         contractAddress: DEPLOYER,
-        contractName: 'tipjar-v2p',
+        contractName: TIPJAR_CONTRACT,
         functionName: 'tip-user',
         functionArgs: [
           { type: 'principal', value: normalizedRecipient },
@@ -99,7 +102,7 @@ export default function TipJar({ onTxSubmit }) {
     try {
       const result = await callContract({
         contractAddress: DEPLOYER,
-        contractName: 'tipjar-v2p',
+        contractName: TIPJAR_CONTRACT,
         functionName: 'tip',
         functionArgs: [{ type: 'uint128', value: tipAmount.toString() }],
       });
@@ -184,7 +187,7 @@ export default function TipJar({ onTxSubmit }) {
                 inputMode="numeric"
                 value={tipAmount}
                 onChange={(e) =>
-                  setTipAmount(Math.max(1, Number.parseInt(e.target.value, 10) || 1000))
+                  setTipAmount(Math.max(MIN_TIP_USTX, Number.parseInt(e.target.value, 10) || DEFAULT_TIP_USTX))
                 }
                 className="amount-input"
               />

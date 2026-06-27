@@ -20,6 +20,12 @@ export function useClicker({ onTxSubmit } = {}) {
     [loadingStates]
   );
 
+  /**
+   * @param {string} displayName - Human-readable name of the function.
+   * @param {string} functionName - Contract function name.
+   * @param {Array} [functionArgs=[]] - Optional array of Clarity contract arguments.
+   * @returns {Promise<Object>} Contract call response.
+   */
   const executeAction = useCallback(
     async (displayName, functionName, functionArgs = []) => {
       const key = `clicker-${functionName}`;
@@ -35,8 +41,8 @@ export function useClicker({ onTxSubmit } = {}) {
         onTxSubmit?.(displayName, result.txId);
         return result;
       } catch (err) {
-        console.error(`${displayName} failed:`, err);
-        throw err;
+        console.error(`[IdleStacks Error] Contract Interaction '${displayName}' failed:`, err);
+        throw new Error(`Failed to execute ${displayName}: ${err?.message || 'Unknown error'}`);
       } finally {
         setLoadingStates((prev) => ({ ...prev, [key]: false }));
       }

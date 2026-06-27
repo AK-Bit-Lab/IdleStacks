@@ -65,7 +65,8 @@ export function useOnlineStatus(options = {}) {
     wasOffline,
     lastOfflineAt,
     lastOnlineAt,
-    offlineDuration: lastOnlineAt && lastOfflineAt ? lastOnlineAt - lastOfflineAt : null,
+    offlineDurationMs: lastOnlineAt && lastOfflineAt ? lastOnlineAt - lastOfflineAt : null,
+    hasRecovered: Boolean(lastOnlineAt && lastOfflineAt && lastOnlineAt > lastOfflineAt),
   };
 }
 

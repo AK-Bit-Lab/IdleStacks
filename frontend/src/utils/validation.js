@@ -42,3 +42,35 @@ export const isValidAmount = (value) => {
   const num = Number(value);
   return Number.isFinite(num) && num > 0 && Number.isInteger(num);
 };
+
+/**
+ * Check whether a string is a valid HTTP/HTTPS URL.
+ *
+ * @param {string} url
+ * @returns {boolean}
+ */
+export const isValidUrl = (url) => {
+  if (!url || typeof url !== 'string') return false;
+  try {
+    const parsed = new URL(url.trim());
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Validate a poll title string.
+ * Must be between 3 and 100 characters and non-empty.
+ *
+ * @param {string} title
+ * @returns {{ valid: boolean, reason: string|null }}
+ */
+export const validatePollTitle = (title) => {
+  if (!title || typeof title !== 'string') return { valid: false, reason: 'Title is required' };
+  const trimmed = title.trim();
+  if (trimmed.length < 3) return { valid: false, reason: 'Title must be at least 3 characters' };
+  if (trimmed.length > 100)
+    return { valid: false, reason: 'Title must be 100 characters or fewer' };
+  return { valid: true, reason: null };
+};

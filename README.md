@@ -64,11 +64,11 @@ If you wish to modify, test, or deploy the Stacks smart contracts locally:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/AdekunleBamz/stacks-clicker.git
+   git clone https://github.com/AK-Bit-Lab/IdleStacks.git
    ```
 2. Install dependencies:
    ```bash
-   cd stacks-clicker
+   cd IdleStacks
    npm ci
    npm run frontend:install
    ```
@@ -114,7 +114,7 @@ This project has undergone a comprehensive 94-PR improvement cycle focusing on:
 
 ```bash
 # Clone
-git clone https://github.com/AdekunleBamz/stacks-clicker.git && cd stacks-clicker
+git clone https://github.com/AK-Bit-Lab/IdleStacks.git && cd IdleStacks
 
 # Install & Run
 npm ci && cp frontend/.env.example frontend/.env && npm run frontend:dev

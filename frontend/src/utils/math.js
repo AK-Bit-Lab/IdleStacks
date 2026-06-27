@@ -40,3 +40,34 @@ export const roundTo = (value, decimals = 2) => {
  */
 export const mapRange = (value, inMin, inMax, outMin, outMax) =>
   ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+
+/**
+ * Returns the sum of all numbers in an array.
+ *
+ * @param {number[]} values
+ * @returns {number}
+ */
+export const sum = (values) => values.reduce((acc, v) => acc + v, 0);
+
+/**
+ * Returns the arithmetic mean of an array of numbers.
+ * Returns 0 for an empty array.
+ *
+ * @param {number[]} values
+ * @returns {number}
+ */
+export const average = (values) => (values.length === 0 ? 0 : sum(values) / values.length);
+
+/**
+ * Returns the median value of an array of numbers.
+ * Returns 0 for an empty array.
+ *
+ * @param {number[]} values
+ * @returns {number}
+ */
+export const median = (values) => {
+  if (values.length === 0) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+};

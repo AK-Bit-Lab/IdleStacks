@@ -19,5 +19,8 @@ export function useBoolean(initialValue = false) {
   const setFalse = useCallback(() => setValue(false), []);
   const toggle = useCallback(() => setValue((prev) => !prev), []);
 
-  return { value, setValue, setTrue, setFalse, toggle };
+  /** Resets the boolean back to the original initialValue. */
+  const reset = useCallback(() => setValue(initialValue), [initialValue]);
+
+  return { value, setValue, setTrue, setFalse, toggle, reset };
 }

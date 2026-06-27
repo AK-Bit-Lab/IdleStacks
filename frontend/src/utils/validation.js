@@ -74,3 +74,24 @@ export const validatePollTitle = (title) => {
     return { valid: false, reason: 'Title must be 100 characters or fewer' };
   return { valid: true, reason: null };
 };
+
+const USERNAME_REGEX = /^[a-zA-Z0-9_-]{3,32}$/;
+
+/**
+ * Validates a player username.
+ * Allows letters, numbers, underscores, and hyphens — 3 to 32 characters.
+ *
+ * @param {string} username
+ * @returns {{ valid: boolean, reason: string|null }}
+ */
+export const validateUsername = (username) => {
+  if (!username || typeof username !== 'string')
+    return { valid: false, reason: 'Username is required' };
+  const trimmed = username.trim();
+  if (trimmed.length < 3) return { valid: false, reason: 'Username must be at least 3 characters' };
+  if (trimmed.length > 32)
+    return { valid: false, reason: 'Username must be 32 characters or fewer' };
+  if (!USERNAME_REGEX.test(trimmed))
+    return { valid: false, reason: 'Username may only contain letters, numbers, _ and -' };
+  return { valid: true, reason: null };
+};

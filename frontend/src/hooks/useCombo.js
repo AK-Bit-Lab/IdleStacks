@@ -15,7 +15,7 @@ import { COMBO_WINDOW_MS } from '../utils/constants';
  *   resetCombo: Function,
  *   isActive: boolean,
  *   hasPendingReset: boolean,
- *   comboLabel: string|null
+ *   comboLabel: (string|null)
  * }} Combo state and control functions
  */
 export function useCombo({ timeout = COMBO_WINDOW_MS } = {}) {

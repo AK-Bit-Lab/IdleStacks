@@ -6,9 +6,11 @@ import { useState, useEffect, useRef, useCallback } from 'react';
  *
  * @param {Function} callback - The function to execute on each interval
  * @param {number|null} delay - Delay in ms. Pass null to pause the interval.
+ * @returns {{ isRunning: boolean }} Whether the interval is currently active
  */
 export function useInterval(callback, delay) {
   const savedCallback = useRef();
+  const [isRunning, setIsRunning] = useState(false);
 
   // Remember the latest callback.
   useEffect(() => {
@@ -24,11 +26,18 @@ export function useInterval(callback, delay) {
     }
     const validDelay = Number.isFinite(delay) && delay >= 0;
     if (validDelay) {
+      setIsRunning(true);
       const id = setInterval(tick, delay);
-      return () => clearInterval(id);
+      return () => {
+        clearInterval(id);
+        setIsRunning(false);
+      };
     }
+    setIsRunning(false);
     return undefined;
   }, [delay]);
+
+  return { isRunning };
 }
 
 /**

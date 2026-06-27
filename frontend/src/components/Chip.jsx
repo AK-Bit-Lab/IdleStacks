@@ -4,7 +4,15 @@ import React from 'react';
  * Base styling for the Chip component
  * @type {string}
  */
-const CHIP_BASE_STYLES = 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-gray-700 text-gray-200';
+const CHIP_BASE_STYLES =
+  'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold';
+
+const CHIP_VARIANTS = {
+  default: 'bg-gray-700 text-gray-200',
+  info: 'bg-blue-500/10 text-blue-300',
+  success: 'bg-green-500/10 text-green-300',
+  warning: 'bg-yellow-500/10 text-yellow-300',
+};
 
 /**
  * Chip component to represent compact data elements or tags.
@@ -13,12 +21,15 @@ const CHIP_BASE_STYLES = 'inline-flex items-center rounded-full px-2.5 py-0.5 te
  * @param {string|React.ReactNode} props.label - Text or content to display
  * @param {function} [props.onDelete] - Optional callback when the delete button is clicked
  * @param {string} [props.className=''] - Additional CSS classes
+ * @param {('default'|'info'|'success'|'warning')} [props.variant='default'] - Visual variant
+ * @param {string} [props.title] - Optional tooltip/title attribute
  * @returns {JSX.Element} Chip component
  */
-const Chip = ({ label, onDelete, className = '' }) => {
+const Chip = ({ label, onDelete, className = '', variant = 'default', title }) => {
   return (
     <div
-      className={`${CHIP_BASE_STYLES} ${className}`}
+      className={`${CHIP_BASE_STYLES} ${CHIP_VARIANTS[variant] || CHIP_VARIANTS.default} ${className}`}
+      title={title}
     >
       {label}
       {onDelete && (

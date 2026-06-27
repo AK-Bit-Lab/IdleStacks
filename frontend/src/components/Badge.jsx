@@ -1,5 +1,14 @@
 import React from 'react';
 
+/**
+ * Badge component for displaying dynamic status labels.
+ *
+ * @param {Object} props - Badge props
+ * @param {React.ReactNode} props.children - Badge content
+ * @param {('primary'|'success'|'warning'|'danger'|'neutral')} [props.variant='primary'] - Visual style variant
+ * @param {('sm'|'md'|'lg')} [props.size='md'] - Size variant
+ * @returns {JSX.Element} Badge component
+ */
 const Badge = ({ children, variant = 'primary', size = 'md' }) => {
   const variants = {
     primary: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',

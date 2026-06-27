@@ -1,6 +1,12 @@
 import { useEffect, useRef, useCallback } from 'react';
 
 /**
+ * Constant safely detecting the browser environment to prevent SSR errors
+ * @type {boolean}
+ */
+const IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+
+/**
  * Custom hook for dynamically updating the document title.
  * Useful for providing reactive feedback (e.g., interaction counts) in the browser tab.
  *
@@ -11,10 +17,10 @@ import { useEffect, useRef, useCallback } from 'react';
  * @returns {{ resetTitle: Function }} Object with a `resetTitle` function to manually restore the previous title
  */
 export function useDocumentTitle({ title, count = 0, restoreOnUnmount = true }) {
-  const previousTitle = useRef(typeof document !== 'undefined' ? document.title : '');
+  const previousTitle = useRef(IS_BROWSER ? document.title : '');
 
   useEffect(() => {
-    if (typeof document === 'undefined') return;
+    if (!IS_BROWSER) return;
     if (!title || typeof title !== 'string') return;
     const trimmedTitle = title.trim();
     if (!trimmedTitle) return;
@@ -28,7 +34,7 @@ export function useDocumentTitle({ title, count = 0, restoreOnUnmount = true }) 
   }, [title, count, restoreOnUnmount]);
 
   const resetTitle = useCallback(() => {
-    if (typeof document !== 'undefined') {
+    if (IS_BROWSER) {
       document.title = previousTitle.current;
     }
   }, []);

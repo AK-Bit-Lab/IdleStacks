@@ -1,6 +1,14 @@
 import { useEffect, useRef } from 'react';
 
-export function usePolling(callback, interval = 10000) {
+/**
+ * Declarative polling hook.
+ *
+ * @param {Function} callback - Function to invoke on each poll
+ * @param {number|null} [interval=10000] - Polling interval in ms, or null to pause
+ * @param {Object} [options]
+ * @param {boolean} [options.immediate=true] - Run callback immediately before the first interval tick
+ */
+export function usePolling(callback, interval = 10000, { immediate = true } = {}) {
   const savedCallback = useRef();
 
   useEffect(() => {
@@ -13,11 +21,11 @@ export function usePolling(callback, interval = 10000) {
         savedCallback.current();
       }
     }
-    
+
     if (interval !== null) {
-      tick();
+      if (immediate) tick();
       const id = setInterval(tick, interval);
       return () => clearInterval(id);
     }
-  }, [interval]);
+  }, [interval, immediate]);
 }

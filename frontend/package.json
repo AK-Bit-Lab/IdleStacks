@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.2.0",
   "description": "Premium React frontend for the Stacks Clicker decentralized interaction hub",
-  "author": "AdekunleBamz",
+  "author": "AK-Bit-Lab",
   "license": "MIT",
   "keywords": [
     "stacks",
@@ -55,6 +55,6 @@
   },
   "homepage": "https://stacks-clicker.vercel.app",
   "bugs": {
-    "url": "https://github.com/AdekunleBamz/stacks-clicker/issues"
+    "url": "https://github.com/AK-Bit-Lab/IdleStacks/issues"
   }
 }

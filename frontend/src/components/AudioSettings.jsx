@@ -15,13 +15,26 @@ const btnHover = { scale: 1.05 };
 const btnTap = { scale: 0.95 };
 
 /**
+ * Default internal values for audio settings configurations
+ * @type {Object}
+ */
+const DEFAULT_AUDIO_SETTINGS = { masterVolume: 1, sfxEnabled: true, musicEnabled: true };
+
+/**
  * AudioSettings Component
  * Control panel for game sounds and music
+ * 
+ * @param {Object} props
+ * @param {boolean} props.isOpen - Is modal open
+ * @param {function} props.onClose - Close callback
+ * @param {Object} [props.settings=DEFAULT_AUDIO_SETTINGS] - Current settings
+ * @param {function} props.onUpdate - Callback to update a setting via (key, value)
+ * @returns {JSX.Element}
  */
 export default function AudioSettings({
   isOpen,
   onClose,
-  settings = { masterVolume: 1, sfxEnabled: true, musicEnabled: true },
+  settings = DEFAULT_AUDIO_SETTINGS,
   onUpdate,
 }) {
   const { playSound } = useSound();

@@ -4,20 +4,23 @@ import { useState, useEffect, useRef, useCallback } from 'react';
  * Custom hook for tracking the pressed state of a specific key.
  *
  * @param {string} targetKey - The key to track (e.g., 'Enter', 'Shift')
+ * @param {Object} [options]
+ * @param {boolean} [options.ignoreRepeat=true] - Ignore keydown repeat events while held
  * @returns {Object} Hook result with state and helpers
  * @returns {boolean} return.isPressed - Current key press state
  * @returns {Function} return.reset - Reset to unpressed state
  * @returns {number} return.pressCount - Total times key was pressed (increments on keydown)
  */
-export function useKeyPress(targetKey) {
+export function useKeyPress(targetKey, { ignoreRepeat = true } = {}) {
   const [keyPressed, setKeyPressed] = useState(false);
   const pressCountRef = useRef(0);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !targetKey) return;
 
-    const downHandler = ({ key }) => {
+    const downHandler = ({ key, repeat }) => {
       if (key === targetKey) {
+        if (ignoreRepeat && repeat) return;
         setKeyPressed(true);
         pressCountRef.current += 1;
       }
@@ -36,7 +39,7 @@ export function useKeyPress(targetKey) {
       window.removeEventListener('keydown', downHandler);
       window.removeEventListener('keyup', upHandler);
     };
-  }, [targetKey]);
+  }, [targetKey, ignoreRepeat]);
 
   const reset = useCallback(() => setKeyPressed(false), []);
 

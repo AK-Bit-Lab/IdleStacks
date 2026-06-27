@@ -47,3 +47,39 @@ export function formatDuration(totalSeconds) {
   if (mins > 0) return `${mins}m ${secs}s`;
   return `${secs}s`;
 }
+
+/**
+ * Returns true if the given timestamp falls on today's date.
+ *
+ * @param {number|string} timestamp - Unix ms or ISO date string
+ * @returns {boolean}
+ */
+export function isToday(timestamp) {
+  if (!timestamp) return false;
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return false;
+  const now = new Date();
+  return (
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth() &&
+    date.getDate() === now.getDate()
+  );
+}
+
+/**
+ * Returns true if two timestamps fall on the same calendar day.
+ *
+ * @param {number|string} a
+ * @param {number|string} b
+ * @returns {boolean}
+ */
+export function isSameDay(a, b) {
+  const dateA = new Date(a);
+  const dateB = new Date(b);
+  if (Number.isNaN(dateA.getTime()) || Number.isNaN(dateB.getTime())) return false;
+  return (
+    dateA.getFullYear() === dateB.getFullYear() &&
+    dateA.getMonth() === dateB.getMonth() &&
+    dateA.getDate() === dateB.getDate()
+  );
+}

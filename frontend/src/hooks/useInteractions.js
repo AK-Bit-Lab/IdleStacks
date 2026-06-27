@@ -4,6 +4,12 @@ import { useTipJar } from './useTipJar';
 import { useQuickPoll } from './useQuickPoll';
 
 /**
+ * Standard duration for haptic feedback pulse on mobile devices
+ * @type {number}
+ */
+const HAPTIC_PULSE_MS = 40;
+
+/**
  * Collector hook that unifies all smart contract interaction hooks into a single interface.
  * Centralizes the onTxSubmit logic and provides a stable, memoized API for the main application grid.
  *
@@ -26,9 +32,9 @@ export function useInteractions({ onTxSubmit }) {
    */
   const handleTxSubmit = useCallback(
     (action, txId) => {
-      // Trigger short haptic pulse (40ms) if supported
+      // Trigger short haptic pulse if supported
       if (typeof window !== 'undefined' && 'vibrate' in navigator) {
-        navigator.vibrate(40);
+        navigator.vibrate(HAPTIC_PULSE_MS);
       }
 
       // Continue with original submission callback

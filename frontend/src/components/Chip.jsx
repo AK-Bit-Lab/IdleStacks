@@ -1,6 +1,12 @@
 import React from 'react';
 
 /**
+ * Base styling for the Chip component
+ * @type {string}
+ */
+const CHIP_BASE_STYLES = 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-gray-700 text-gray-200';
+
+/**
  * Chip component to represent compact data elements or tags.
  *
  * @param {Object} props - Chip props
@@ -11,7 +17,9 @@ import React from 'react';
  */
 const Chip = ({ label, onDelete, className = '' }) => {
   return (
-    <div className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-gray-700 text-gray-200 ${className}`}>
+    <div
+      className={`${CHIP_BASE_STYLES} ${className}`}
+    >
       {label}
       {onDelete && (
         <button

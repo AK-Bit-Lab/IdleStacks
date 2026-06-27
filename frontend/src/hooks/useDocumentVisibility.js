@@ -10,13 +10,15 @@ const IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== '
  * Custom hook for tracking the visibility of the current document (tab active/hidden).
  * Useful for pausing/resuming expensive operations like polling or animations.
  *
- * @returns {{ isVisible: boolean, hiddenCount: number }} Visibility state and number of times hidden
+ * @returns {{ isVisible: boolean, hiddenCount: number, lastHiddenAt: number|null, lastVisibleAt: number|null }} Visibility state and number of times hidden
  */
 export function useDocumentVisibility() {
   const [isVisible, setIsVisible] = useState(
     IS_BROWSER ? document.visibilityState === 'visible' : true
   );
   const [hiddenCount, setHiddenCount] = useState(0);
+  const [lastHiddenAt, setLastHiddenAt] = useState(null);
+  const [lastVisibleAt, setLastVisibleAt] = useState(null);
   const prevVisible = useRef(isVisible);
 
   useEffect(() => {
@@ -26,6 +28,10 @@ export function useDocumentVisibility() {
       const visible = document.visibilityState === 'visible';
       if (!visible && prevVisible.current) {
         setHiddenCount((c) => c + 1);
+        setLastHiddenAt(Date.now());
+      }
+      if (visible && !prevVisible.current) {
+        setLastVisibleAt(Date.now());
       }
       prevVisible.current = visible;
       setIsVisible(visible);
@@ -40,5 +46,5 @@ export function useDocumentVisibility() {
     };
   }, []);
 
-  return { isVisible, hiddenCount };
+  return { isVisible, hiddenCount, lastHiddenAt, lastVisibleAt };
 }

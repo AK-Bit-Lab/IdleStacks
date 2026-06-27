@@ -1,6 +1,12 @@
 import React from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
+/**
+ * ThemeToggle Component
+ * Headless component for managing global dark/light theme state
+ * 
+ * @returns {null}
+ */
 const ThemeToggle = () => {
   const [theme, setTheme] = useLocalStorage('theme', 'dark');
 

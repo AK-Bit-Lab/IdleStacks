@@ -1,15 +1,15 @@
 # Default owner for everything
-* @AdekunleBamz
+* @AK-Bit-Lab
 
 # Contract files require review
-/contracts/ @AdekunleBamz
+/contracts/ @AK-Bit-Lab
 
 # Test files
-/tests/ @AdekunleBamz
+/tests/ @AK-Bit-Lab
 
 # CI/CD configuration
-/.github/ @AdekunleBamz
+/.github/ @AK-Bit-Lab
 
 # Documentation
-/docs/ @AdekunleBamz
-*.md @AdekunleBamz
+/docs/ @AK-Bit-Lab
+*.md @AK-Bit-Lab

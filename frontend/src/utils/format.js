@@ -61,3 +61,34 @@ export const formatTimeAgo = (isoString) => {
   if (days < 30) return `${days}d ago`;
   return new Date(isoString).toLocaleDateString();
 };
+
+/**
+ * Formats a number using compact notation (K, M, B).
+ * Useful for large scores and leaderboard values.
+ *
+ * @param {number} value - The numeric value to format
+ * @returns {string} Compact representation, e.g. "1.2K"
+ */
+export const formatCompact = (value) => {
+  const n = Number(value);
+  if (Number.isNaN(n)) return '0';
+  return new Intl.NumberFormat('en-US', {
+    notation: 'compact',
+    maximumFractionDigits: 1,
+  }).format(n);
+};
+
+/**
+ * Formats a byte count into a human-readable string.
+ *
+ * @param {number} bytes - Raw byte count
+ * @param {number} [decimals=2] - Decimal precision
+ * @returns {string} e.g. "1.50 KB"
+ */
+export const formatBytes = (bytes, decimals = 2) => {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(Math.abs(bytes)) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(decimals))} ${sizes[i]}`;
+};

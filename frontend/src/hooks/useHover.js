@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 /**
  * Custom hook for tracking the hover state of an element.
  *
- * @returns {[Object, boolean, Function]} [ref, isHovered, resetHover]
+ * @returns {[React.MutableRefObject, boolean, Function]} [ref, isHovered, resetHover]
  */
 export function useHover() {
   const [isHovered, setIsHovered] = useState(false);
@@ -19,8 +19,8 @@ export function useHover() {
       node.addEventListener('mouseleave', handleMouseLeave, { passive: true });
 
       return () => {
-        node.removeEventListener('mouseenter', handleMouseEnter);
-        node.removeEventListener('mouseleave', handleMouseLeave);
+        node.removeEventListener('mouseenter', handleMouseEnter, { passive: true });
+        node.removeEventListener('mouseleave', handleMouseLeave, { passive: true });
       };
     }
     return undefined;

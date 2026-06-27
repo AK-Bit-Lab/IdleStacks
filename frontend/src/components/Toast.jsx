@@ -3,6 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 
 /**
+ * Standard duration for auto-dismissing toasts in milliseconds
+ * @type {number}
+ */
+export const DEFAULT_TOAST_TIMEOUT = 3000;
+
+/**
  * Toast notification component with smooth framer-motion animations.
  * Displays a list of toast notifications with appropriate icons and ARIA roles.
  *

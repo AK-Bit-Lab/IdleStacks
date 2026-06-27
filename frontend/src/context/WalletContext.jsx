@@ -39,12 +39,14 @@ function getAppDetails() {
 export function WalletProvider({ children }) {
   const [address, setAddress] = useState(null);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [lastConnectedAt, setLastConnectedAt] = useState(null);
 
   const checkConnection = useCallback(async () => {
     if (typeof window === 'undefined' || !isStacksConnected()) return;
     try {
       const account = await getAddresses();
       setAddress(account.address.trim());
+      setLastConnectedAt(Date.now());
     } catch {
       // no restorable Stacks wallet session
     }
@@ -60,6 +62,7 @@ export function WalletProvider({ children }) {
     try {
       const account = await connectStacksWallet();
       setAddress(account.address.trim());
+      setLastConnectedAt(Date.now());
       toast.success('Wallet connected!');
     } catch (error) {
       toast.error(error?.message || 'Wallet connection failed');
@@ -72,6 +75,7 @@ export function WalletProvider({ children }) {
   const disconnectWallet = useCallback(async () => {
     disconnectStacksWallet();
     setAddress(null);
+    setLastConnectedAt(null);
     toast('Wallet disconnected');
   }, []);
 
@@ -85,15 +89,12 @@ export function WalletProvider({ children }) {
       appDetails,
       isConnected: !!address,
       isConnecting,
+      lastConnectedAt,
     }),
-    [address, connectWallet, disconnectWallet, appDetails, isConnecting]
+    [address, connectWallet, disconnectWallet, appDetails, isConnecting, lastConnectedAt]
   );
 
-  return (
-    <WalletContext.Provider value={value}>
-      {children}
-    </WalletContext.Provider>
-  );
+  return <WalletContext.Provider value={value}>{children}</WalletContext.Provider>;
 }
 
 WalletProvider.propTypes = {

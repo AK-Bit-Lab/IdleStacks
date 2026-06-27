@@ -10,7 +10,7 @@ export const formatAddress = (address) => {
 export const formatAmount = (amount) => {
   return Number(amount).toLocaleString('en-US', {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 6
+    maximumFractionDigits: 6,
   });
 };
 

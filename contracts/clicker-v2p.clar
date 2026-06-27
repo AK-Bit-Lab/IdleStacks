@@ -89,54 +89,84 @@
 ;; READ-ONLY FUNCTIONS
 ;; ============================================
 
+;; @notice Returns the contract version
+;; @returns {uint} Version number
 (define-read-only (get-version)
   VERSION
 )
 
+;; @notice Returns the contract name
+;; @returns {string-ascii 10} Name
 (define-read-only (get-contract-name)
   CONTRACT-NAME
 )
 
+;; @notice Gets total clicks across all users
+;; @returns {uint} Total clicks
 (define-read-only (get-total-clicks)
   (var-get total-clicks)
 )
 
+;; @notice Gets total fees collected
+;; @returns {uint} Fees collected in uSTX
 (define-read-only (get-total-fees-collected)
   (var-get total-fees-collected)
 )
 
+;; @notice Gets the interaction fee constant
+;; @returns {uint} Fee in uSTX
 (define-read-only (get-interaction-fee)
   interaction-fee
 )
 
+;; @notice Gets clicks for a specific user
+;; @param user {principal} The user address
+;; @returns {uint} User's click count
 (define-read-only (get-user-clicks (user principal))
   (default-to u0 (map-get? user-clicks user))
 )
 
+;; @notice Gets streak for a specific user
+;; @param user {principal} The user address
+;; @returns {uint} User's streak count
 (define-read-only (get-user-streak (user principal))
   (default-to u0 (map-get? user-streaks user))
 )
 
+;; @notice Gets the last user to click
+;; @returns {(optional principal)} Last clicker
 (define-read-only (get-last-clicker)
   (var-get last-clicker)
 )
 
+;; @notice Gets total unique users
+;; @returns {uint} Unique user count
 (define-read-only (get-unique-users)
   (var-get unique-users)
 )
 
+;; @notice Gets the block height of the last activity
+;; @returns {uint} Block height
 (define-read-only (get-last-activity-block)
   (var-get last-activity-block)
 )
 
+;; @notice Gets the first click block height for a user
+;; @param user {principal} The user address
+;; @returns {(optional uint)} Block height of first click
 (define-read-only (get-user-first-click (user principal))
   (map-get? user-first-click user)
 )
 
+;; @notice Returns whether the contract is paused
+;; @returns {bool} True if paused
 (define-read-only (is-contract-paused)
   (var-get is-paused)
 )
 
+;; @notice Gets aggregated stats for a user
+;; @param user {principal} The user address
+;; @returns {tuple} User stats and global state
 (define-read-only (get-stats (user principal))
   {
     total: (var-get total-clicks),
@@ -148,6 +178,8 @@
   }
 )
 
+;; @notice Gets aggregated contract information
+;; @returns {tuple} Contract info and stats
 (define-read-only (get-contract-info)
   {
     name: CONTRACT-NAME,
@@ -166,6 +198,8 @@
 ;; ============================================
 
 ;; Simple click - costs 0.0001 STX
+;; @notice Performs a simple click
+;; @returns {(response uint uint)} New click count or error
 (define-public (click)
   (let
     (
@@ -200,6 +234,9 @@
 )
 
 ;; Multi-click - costs 0.0001 STX (capped at 100)
+;; @notice Performs multiple clicks at once
+;; @param count {uint} Number of clicks (capped at MAX-MULTI-CLICK)
+;; @returns {(response uint uint)} Safe count of clicks added or error
 (define-public (multi-click (count uint))
   (let
     (
@@ -236,6 +273,8 @@
 )
 
 ;; Reset streak - costs 0.0001 STX
+;; @notice Resets the caller's streak
+;; @returns {(response bool uint)} Success status or error
 (define-public (reset-streak)
   (begin
     (try! (check-not-paused))
@@ -253,6 +292,8 @@
 )
 
 ;; Ping - costs 0.0001 STX
+;; @notice Pings the contract to update activity block
+;; @returns {(response uint uint)} Block height or error
 (define-public (ping)
   (begin
     (try! (check-not-paused))
@@ -273,6 +314,8 @@
 ;; ============================================
 
 ;; Pause contract (owner only)
+;; @notice Pauses the contract
+;; @returns {(response bool uint)} Success status or error
 (define-public (pause)
   (begin
     (try! (check-owner))
@@ -288,6 +331,8 @@
 )
 
 ;; Unpause contract (owner only)
+;; @notice Unpauses the contract
+;; @returns {(response bool uint)} Success status or error
 (define-public (unpause)
   (begin
     (try! (check-owner))

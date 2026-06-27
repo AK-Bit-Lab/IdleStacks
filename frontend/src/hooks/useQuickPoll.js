@@ -7,6 +7,11 @@ import { DEPLOYER_ADDRESS, CONTRACT_NAMES } from '../config/contracts';
 /** @constant {string} QuickPoll contract name */
 const CONTRACT_NAME = CONTRACT_NAMES.quickpoll;
 
+const ACTION_KEYS = Object.freeze({
+  VOTE: '🗳️ Vote',
+  PING: '📡 Poll-Ping',
+});
+
 /**
  * Custom hook for QuickPoll contract interactions.
  * @param {Object} options - Hook options.
@@ -19,7 +24,10 @@ export function useQuickPoll({ onTxSubmit } = {}) {
 
   const executeAction = useCallback(
     async (key, functionName, functionArgs = []) => {
-      if (!isConnected) return;
+      if (!isConnected) {
+        notify.error('Connect your wallet before using QuickPoll.');
+        return undefined;
+      }
       setLoadingStates((prev) => ({ ...prev, [key]: true }));
       try {
         const result = await callContract({
@@ -43,19 +51,19 @@ export function useQuickPoll({ onTxSubmit } = {}) {
   const vote = useCallback(
     (_pollId, option) => {
       const voteYesFlag = option === true || option === 1 || option === 'yes';
-      return executeAction('🗳️ Vote', voteYesFlag ? 'vote-yes' : 'vote-no');
+      return executeAction(ACTION_KEYS.VOTE, voteYesFlag ? 'vote-yes' : 'vote-no');
     },
     [executeAction]
   );
 
-  const createPoll = useCallback(
-    () => {
-      notify.info('Poll creation is not available on this contract version.');
-      return undefined;
-    },
-    []
+  const createPoll = useCallback(() => {
+    notify.info('Poll creation is not available on this contract version.');
+    return undefined;
+  }, []);
+  const handlePollPing = useCallback(
+    () => executeAction(ACTION_KEYS.PING, 'ping'),
+    [executeAction]
   );
-  const handlePollPing = useCallback(() => executeAction('📡 Poll-Ping', 'ping'), [executeAction]);
 
   return {
     isLoading: (key) => !!loadingStates[key],

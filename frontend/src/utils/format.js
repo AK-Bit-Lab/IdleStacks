@@ -19,6 +19,32 @@ export const formatNumber = (value) => {
   return Number(value).toLocaleString('en-US');
 };
 
+/**
+ * Formats a raw micro-STX amount into a human-readable STX string.
+ *
+ * @param {number|string} microStx - Amount in micro-STX (1 STX = 1,000,000 micro-STX)
+ * @param {number} [decimals=6] - Max decimal places to show
+ * @returns {string} Formatted STX value, e.g. "1.500000 STX"
+ */
+export const formatMicroSTX = (microStx, decimals = 6) => {
+  const stx = Number(microStx) / 1_000_000;
+  if (Number.isNaN(stx)) return '0 STX';
+  return `${stx.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: decimals })} STX`;
+};
+
+/**
+ * Formats a STX amount for display, appending the STX ticker.
+ *
+ * @param {number|string} amount - Amount in full STX units
+ * @param {number} [decimals=2] - Max decimal places
+ * @returns {string}
+ */
+export const formatSTX = (amount, decimals = 2) => {
+  const n = Number(amount);
+  if (Number.isNaN(n)) return '0 STX';
+  return `${n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: decimals })} STX`;
+};
+
 export const formatTimeAgo = (isoString) => {
   if (!isoString) return '';
   const now = Date.now();

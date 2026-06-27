@@ -40,10 +40,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AdekunleBamz/stacks-clicker.git"
+    "url": "https://github.com/AK-Bit-Lab/IdleStacks.git"
   },
   "homepage": "https://stacks-clicker.vercel.app",
   "bugs": {
-    "url": "https://github.com/AdekunleBamz/stacks-clicker/issues"
+    "url": "https://github.com/AK-Bit-Lab/IdleStacks/issues"
   }
 }

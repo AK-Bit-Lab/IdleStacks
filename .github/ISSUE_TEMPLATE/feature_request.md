@@ -10,9 +10,9 @@ assignees: ''
 A clear description of the feature you'd like.
 
 ## Contract Scope
-- [ ] clicker-v2j
-- [ ] tipjar-v2j
-- [ ] quickpoll-v2j
+- [ ] clicker-v2p
+- [ ] tipjar-v2p
+- [ ] quickpoll-v2p
 - [ ] New contract
 - [ ] Frontend
 - [ ] Other

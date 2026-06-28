@@ -10,9 +10,9 @@ assignees: ''
 A clear description of the bug.
 
 ## Contract Affected
-- [ ] clicker-v2j
-- [ ] tipjar-v2j
-- [ ] quickpoll-v2j
+- [ ] clicker-v2p
+- [ ] tipjar-v2p
+- [ ] quickpoll-v2p
 - [ ] Frontend
 - [ ] Other
 

@@ -12,7 +12,7 @@ const POLL_FEE = '0.0001';
 /**
  * QuickPoll Component
  * Create and vote on community polls
- * 
+ *
  * @param {Object} props
  * @param {function} props.onTxSubmit - Callback for transaction submission
  * @returns {JSX.Element}

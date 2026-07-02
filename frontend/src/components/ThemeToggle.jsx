@@ -4,7 +4,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 /**
  * ThemeToggle Component
  * Headless component for managing global dark/light theme state
- * 
+ *
  * @returns {null}
  */
 const ThemeToggle = () => {

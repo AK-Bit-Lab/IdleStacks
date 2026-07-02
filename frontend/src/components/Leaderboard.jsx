@@ -18,7 +18,7 @@ const PAGE_SIZE = 10;
 /**
  * Leaderboard Component
  * Displays top players in a vibrant, ranked list
- * 
+ *
  * @param {Object} props
  * @param {Array<{address: string, clicks: number, level: number}>} [props.players=EMPTY_PLAYERS] - Array of player records
  * @returns {JSX.Element}

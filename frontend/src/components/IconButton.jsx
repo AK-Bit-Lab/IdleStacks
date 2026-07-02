@@ -12,7 +12,7 @@ const ICON_BUTTON_SIZES = {
 
 /**
  * IconButton component for icon-only interactive elements
- * 
+ *
  * @param {Object} props
  * @param {React.ReactNode} props.icon - Icon element
  * @param {function} props.onClick - Click handler

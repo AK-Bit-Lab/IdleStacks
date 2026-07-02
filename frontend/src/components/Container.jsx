@@ -15,9 +15,7 @@ const CONTAINER_BASE_STYLES = 'w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8';
  * @returns {JSX.Element} Container component
  */
 const Container = ({ children, className = '' }) => {
-  return (
-    <div className={`${CONTAINER_BASE_STYLES} ${className}`}>{children}</div>
-  );
+  return <div className={`${CONTAINER_BASE_STYLES} ${className}`}>{children}</div>;
 };
 
 export default Container;

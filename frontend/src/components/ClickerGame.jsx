@@ -14,7 +14,7 @@ const GAME_FEE = '0.0001';
 /**
  * Clicker Game Component
  * Click to earn streaks and compete!
- * 
+ *
  * @param {Object} props
  * @param {function} props.onTxSubmit - Callback for transaction submission
  * @returns {JSX.Element}

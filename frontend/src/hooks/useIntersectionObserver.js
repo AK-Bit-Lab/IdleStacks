@@ -22,7 +22,9 @@ export function useIntersectionObserver({
   threshold = DEFAULT_THRESHOLD,
   triggerOnce = true,
 } = {}) {
-  const safeThreshold = Number.isFinite(threshold) ? Math.min(1, Math.max(0, threshold)) : DEFAULT_THRESHOLD;
+  const safeThreshold = Number.isFinite(threshold)
+    ? Math.min(1, Math.max(0, threshold))
+    : DEFAULT_THRESHOLD;
   const [isIntersecting, setIntersecting] = useState(false);
   const [intersectionRatio, setIntersectionRatio] = useState(0);
   const elementRef = useRef(null);

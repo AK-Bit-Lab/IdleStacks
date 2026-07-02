@@ -4,9 +4,9 @@ import Tooltip from './Tooltip';
 
 /**
  * CopyButton component for copying specific text to clipboard securely.
- * 
+ *
  * @param {Object} props - CopyButton props
- * @param {string} props.text - The text string to copy 
+ * @param {string} props.text - The text string to copy
  * @param {string} [props.className=''] - Additional CSS classes
  * @returns {JSX.Element} CopyButton component
  */

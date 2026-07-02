@@ -187,7 +187,9 @@ export default function TipJar({ onTxSubmit }) {
                 inputMode="numeric"
                 value={tipAmount}
                 onChange={(e) =>
-                  setTipAmount(Math.max(MIN_TIP_USTX, Number.parseInt(e.target.value, 10) || DEFAULT_TIP_USTX))
+                  setTipAmount(
+                    Math.max(MIN_TIP_USTX, Number.parseInt(e.target.value, 10) || DEFAULT_TIP_USTX)
+                  )
                 }
                 className="amount-input"
               />

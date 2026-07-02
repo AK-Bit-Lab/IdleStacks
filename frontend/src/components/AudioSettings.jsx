@@ -23,7 +23,7 @@ const DEFAULT_AUDIO_SETTINGS = { masterVolume: 1, sfxEnabled: true, musicEnabled
 /**
  * AudioSettings Component
  * Control panel for game sounds and music
- * 
+ *
  * @param {Object} props
  * @param {boolean} props.isOpen - Is modal open
  * @param {function} props.onClose - Close callback

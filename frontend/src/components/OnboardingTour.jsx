@@ -31,7 +31,7 @@ const TOUR_STEPS = [
 /**
  * OnboardingTour Component
  * Interactive state machine managing the first-time user tutorial
- * 
+ *
  * @returns {JSX.Element|null}
  */
 export default function OnboardingTour() {

@@ -2,7 +2,7 @@ import React from 'react';
 
 /**
  * Toggle component for binary settings (Switch)
- * 
+ *
  * @param {Object} props
  * @param {boolean} props.checked - Active state
  * @param {function} props.onChange - State change handler

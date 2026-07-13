@@ -1,4 +1,4 @@
-import React from 'react';
+// import removed as unused
 
 /**
  * Semantic style mappings for Alert variants

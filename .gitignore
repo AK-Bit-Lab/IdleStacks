@@ -113,3 +113,6 @@ test-results/
 .vercel
 settings/*.toml
 settings/*.toml
+
+# Automation scripts (local tooling, not part of the app)
+scripts/automation/

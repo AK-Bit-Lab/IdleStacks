@@ -1,5 +1,5 @@
-/* global URL */
-/* global URL */
+// removed duplicate global comment
+// removed duplicate global comment
 const STX_ADDRESS_REGEX = /^[ST][12][0-9A-HJ-NP-Za-km-z]{38,40}$/;
 const MAX_MEMO_LENGTH = 34;
 

@@ -39,6 +39,7 @@ export default [
         caches: 'readonly',
         navigator: 'readonly',
         performance: 'readonly',
+        URL: 'readonly',
         URLSearchParams: 'readonly',
         KeyboardEvent: 'readonly',
         Storage: 'readonly',

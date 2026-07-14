@@ -1,4 +1,4 @@
-import React, { forwardRef, useId } from 'react';
+import { forwardRef, useId } from 'react';
 
 /**
  * Accessible Select component with labeling, helper text, and error handling.

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const SIZE_CLASSES = {
   sm: 'max-w-sm',

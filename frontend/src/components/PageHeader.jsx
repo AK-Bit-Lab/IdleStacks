@@ -1,5 +1,3 @@
-import React from 'react';
-
 const PageHeader = ({ title, description, action }) => {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">

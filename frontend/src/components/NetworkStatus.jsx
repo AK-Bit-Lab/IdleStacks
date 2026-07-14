@@ -1,4 +1,3 @@
-import React from 'react';
 import { APP_NETWORK } from '../utils/constants';
 
 const NetworkStatus = ({ showLabel = true }) => {

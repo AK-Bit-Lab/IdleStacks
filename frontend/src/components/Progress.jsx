@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Progress bar component with optional animated stripe and ARIA support.
  *

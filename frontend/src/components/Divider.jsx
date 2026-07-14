@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Divider component to display a horizontal or vertical rule with accessibility support.
  *

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const FlexCol = ({ children, justify = 'start', align = 'stretch', gap = 4, className = '' }) => {
   const justifyClasses = {
     start: 'justify-start',

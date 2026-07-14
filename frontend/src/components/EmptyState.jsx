@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * EmptyState component for displaying when no data is available.
  *

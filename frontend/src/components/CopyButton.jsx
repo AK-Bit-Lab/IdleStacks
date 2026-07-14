@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCopied } from '../hooks/useCopied';
 import Tooltip from './Tooltip';
 

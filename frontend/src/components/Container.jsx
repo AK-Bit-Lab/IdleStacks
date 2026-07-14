@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Default container styling classes
  * @type {string}

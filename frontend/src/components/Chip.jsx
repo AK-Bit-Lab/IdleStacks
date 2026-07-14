@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Base styling for the Chip component
  * @type {string}

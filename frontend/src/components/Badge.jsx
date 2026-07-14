@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Visual style mappings for Badge variants
  * @type {Record<string, string>}

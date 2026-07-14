@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Base styling for Link component
  * @type {string}

@@ -1,4 +1,4 @@
-import React, { forwardRef, useId } from 'react';
+import { forwardRef, useId } from 'react';
 
 /**
  * Accessible Input component with built-in labeling, helper text, and error handling.

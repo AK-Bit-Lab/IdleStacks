@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Grid = ({ children, cols = 1, gap = 4, className = '' }) => {
   const colClasses = {
     1: 'grid-cols-1',

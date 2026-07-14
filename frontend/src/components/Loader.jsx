@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Loader = ({ size = 'md', color = 'white', label = 'Loading...' }) => {
   const sizeClasses = {
     sm: 'w-4 h-4',

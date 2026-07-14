@@ -1,5 +1,3 @@
-import React from 'react';
-
 const List = ({ items, renderItem, emptyMessage = 'No items found', className = '', getKey }) => {
   if (!items || items.length === 0) {
     return (

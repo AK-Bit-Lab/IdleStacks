@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Size mappings for IconButton padding
  * @type {Record<string, string>}
